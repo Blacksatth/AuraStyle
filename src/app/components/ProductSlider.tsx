@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from 'react'
 import { getProducts } from '../lib/firebaseFunctions'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight, ShoppingCart, Heart, Star, Sparkles, Zap } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, Heart } from 'lucide-react'
 import { Product } from '../types/Product'
-import { formatPrice } from "../utils/formatPrice"
+import { formatPrice } from '../utils/formatPrice'
 
 export default function ProductHeroSlider() {
   const [products, setProducts] = useState<Product[]>([])
@@ -30,214 +30,192 @@ export default function ProductHeroSlider() {
     if (products.length === 0 || isHovered) return
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % products.length)
-    }, 5000)
+    }, 6000)
     return () => clearInterval(interval)
   }, [products, isHovered])
 
   const handlePrev = () => setIndex((prev) => (prev - 1 + products.length) % products.length)
   const handleNext = () => setIndex((prev) => (prev + 1) % products.length)
-  
+
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(0)
     setTouchStart(e.targetTouches[0].clientX)
   }
-  
+
   const handleTouchMove = (e: React.TouchEvent) => {
     setTouchEnd(e.targetTouches[0].clientX)
   }
-  
+
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return
     const distance = touchStart - touchEnd
-    const isLeftSwipe = distance > 50
-    const isRightSwipe = distance < -50
-    
-    if (isLeftSwipe) handleNext()
-    if (isRightSwipe) handlePrev()
+    if (distance > 50) handleNext()
+    if (distance < -50) handlePrev()
   }
 
   const handleImageLoad = (productId: string) => {
-    setImageLoaded(prev => ({ ...prev, [productId]: true }))
+    setImageLoaded((prev) => ({ ...prev, [productId]: true }))
   }
 
   if (isLoading) {
     return (
-      <div className="w-full h-[40vh] sm:h-[45vh] bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 rounded-2xl flex items-center justify-center overflow-hidden relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 animate-pulse"></div>
-        <div className="flex flex-col items-center gap-3 z-10">
-          <div className="relative">
-            <div className="w-12 h-12 border-4 border-violet-500/30 border-t-violet-500 rounded-full animate-spin"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-violet-500 animate-pulse" />
-            </div>
+      <section className="container-edge py-16 sm:py-20">
+        <div className="flex h-[420px] items-center justify-center rounded-2xl border border-line bg-surface sm:h-[500px]">
+          <div className="flex flex-col items-center gap-4">
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-line border-t-gold" />
+            <p className="text-sm tracking-wide text-ash">Preparando la selección…</p>
           </div>
-          <p className="text-slate-300 text-base font-medium">Cargando productos destacados...</p>
         </div>
-      </div>
+      </section>
     )
   }
 
+  if (products.length === 0) return null
+
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900/10 to-slate-900 py-3 sm:py-4 rounded-2xl shadow-2xl border border-slate-800/50">
-      <div className="max-w-8xl mx-auto px-2 sm:px-6 lg:px-8">
-        <div 
-          ref={sliderRef}
-          className="relative w-full h-[40vh] sm:h-[45vh] md:h-[50vh] rounded-2xl overflow-hidden shadow-2xl border border-slate-800/50"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          {/* Efectos de fondo animados */}
-          <div className="absolute inset-0 z-0">
-            <div className="absolute top-0 left-0 w-72 h-72 bg-purple-500/10 rounded-full filter blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-0 right-0 w-72 h-72 bg-violet-500/10 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+    <section className="container-edge py-16 sm:py-20" aria-labelledby="seleccion-title">
+      <div className="mb-7 flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <p className="eyebrow">Selección de la casa</p>
+          <h2 id="seleccion-title" className="mt-3 font-display text-4xl font-light text-bone sm:text-5xl">
+            Piezas que <span className="italic text-gold">destacan</span>
+          </h2>
+        </div>
+
+        <div className="flex items-center gap-5">
+          <span className="text-xs tracking-[0.2em] text-ash" aria-hidden="true">
+            <span className="text-gold">{String(index + 1).padStart(2, '0')}</span>
+            <span className="mx-1 text-line">/</span>
+            {String(products.length).padStart(2, '0')}
+          </span>
+          <div className="flex gap-2">
+            <button
+              onClick={handlePrev}
+              aria-label="Pieza anterior"
+              className="grid h-11 w-11 place-items-center rounded-full border border-line text-bone transition-colors hover:border-gold/60 hover:text-gold"
+            >
+              <ArrowLeft size={17} />
+            </button>
+            <button
+              onClick={handleNext}
+              aria-label="Pieza siguiente"
+              className="grid h-11 w-11 place-items-center rounded-full border border-line text-bone transition-colors hover:border-gold/60 hover:text-gold"
+            >
+              <ArrowRight size={17} />
+            </button>
           </div>
-          
-          {products.map((product, i) => (
+        </div>
+      </div>
+
+      <div
+        ref={sliderRef}
+        className="relative h-[460px] w-full overflow-hidden rounded-2xl border border-line bg-surface sm:h-[540px] lg:h-[580px]"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        aria-roledescription="carrusel"
+        aria-label="Productos destacados"
+      >
+        {products.map((product, i) => {
+          const image = Array.isArray(product.image) ? product.image[0] : product.image
+          const active = i === index
+
+          return (
             <div
               key={product.id}
-              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-                i === index 
-                  ? 'opacity-100 z-10 scale-100' 
-                  : i === (index - 1 + products.length) % products.length || i === (index + 1) % products.length
-                    ? 'opacity-0 z-0 scale-105'
-                    : 'opacity-0 z-0 scale-95'
-              }`}
+              className={`absolute inset-0 transition-opacity duration-700 ${active ? 'z-10 opacity-100' : 'z-0 opacity-0'
+                }`}
+              aria-hidden={!active}
             >
-              <div className="relative w-full h-full">
-                <Image
-                  src={Array.isArray(product.image) ? product.image[0] : product.image}
-                  alt={product.name}
-                  fill
-                  className={`object-cover transition-opacity duration-700 ${imageLoaded[product.id || ''] ? 'opacity-100' : 'opacity-0'}`}
-                  priority={i === index}
-                  onLoad={() => handleImageLoad(product.id || '')}
-                />
-                
-                {!imageLoaded[product.id || ''] && (
-                  <div className="absolute inset-0 bg-slate-800 animate-pulse"></div>
-                )}
+              <Image
+                src={image}
+                alt={product.name}
+                fill
+                priority={active}
+                sizes="100vw"
+                className={`object-cover transition-transform duration-[1200ms] ease-out ${active ? 'scale-100' : 'scale-105'
+                  } ${imageLoaded[product.id || ''] ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={() => handleImageLoad(product.id || '')}
+              />
 
-                {/* Overlay de gradiente optimizado */}
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/50 to-transparent"></div>
-                
-                {/* Efecto de brillo en el borde */}
-                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_0_20px_rgba(139,92,246,0.1)]"></div>
+              {!imageLoaded[product.id || ''] && (
+                <div className="absolute inset-0 animate-pulse bg-elevated" />
+              )}
 
-                {/* Contenido compacto */}
-                <div className={`absolute inset-0 flex items-center px-4 sm:px-10 md:px-16 transition-all duration-700 delay-300 ${
-                  i === index ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'
-                }`}>
-                  <div className="max-w-xl space-y-3 sm:space-y-4">
-                    {/* Badges compactos */}
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="flex items-center gap-1 px-2.5 py-1 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold rounded-full text-xs uppercase tracking-wide shadow-lg shadow-purple-500/30">
-                        <Zap className="w-3 h-3" />
-                        Nuevo
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/20 to-transparent" />
+
+              <div className="absolute inset-0 flex items-end">
+                <div className="w-full p-6 sm:p-10 lg:p-14">
+                  <div className="max-w-xl">
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <span className="rounded-full bg-gold px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-ink">
+                        Novedad
                       </span>
                       {product.category && (
-                        <span className="px-2.5 py-1 bg-slate-800/90 backdrop-blur-md text-slate-200 font-semibold rounded-full text-xs border border-slate-700/50">
+                        <span className="rounded-full border border-bone/25 bg-ink/30 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-bone backdrop-blur-sm">
                           {product.category}
                         </span>
                       )}
-                      {typeof product.stock === 'number' && product.stock < 5 && (
-                        <span className="px-2.5 py-1 bg-amber-500/20 text-amber-400 font-semibold rounded-full text-xs border border-amber-500/30 flex items-center gap-1">
-                          <Star className="w-3 h-3 fill-current" />
-                          Últimas
-                        </span>
-                      )}
                     </div>
 
-                    {/* Título compacto */}
-                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white drop-shadow-2xl leading-tight tracking-tight">
+                    <h3 className="mt-4 font-display text-4xl font-light leading-[1.02] text-bone sm:text-5xl lg:text-6xl">
                       {product.name}
-                      <div className="h-0.5 w-16 bg-gradient-to-r from-violet-500 to-fuchsia-500 mt-1.5 rounded-full"></div>
                     </h3>
 
-                    {/* Precio y stock en línea */}
-                    <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
-                      {product.price && (
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="text-2xl sm:text-3xl md:text-4xl font-black text-white bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
-                            {formatPrice(product.price)}
-                          </span>
-                          <span className="text-xs sm:text-sm text-slate-400 font-medium">COP</span>
-                        </div>
+                    <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+                      {product.price !== undefined && (
+                        <p className="text-xl font-medium text-gold sm:text-2xl">
+                          {formatPrice(product.price)}
+                          <span className="ml-2 text-[10px] uppercase tracking-[0.18em] text-ash">COP</span>
+                        </p>
                       )}
-                      
                       {product.stock !== undefined && (
-                        <div className="flex items-center gap-1.5">
-                          <div className={`w-2 h-2 rounded-full ${product.stock > 0 ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
-                          <span className="text-xs sm:text-sm text-slate-300 font-medium">
-                            {product.stock > 0 ? `${product.stock} Disponibles.` : 'Agotado'}
-                          </span>
-                        </div>
+                        <p className="flex items-center gap-2 text-xs text-ash">
+                          <span
+                            className={`h-1.5 w-1.5 rounded-full ${product.stock > 0 ? 'bg-emerald-400' : 'bg-red-400'}`}
+                          />
+                          {product.stock > 0 ? `${product.stock} disponibles` : 'Agotado'}
+                        </p>
                       )}
                     </div>
 
-                    {/* Botones compactos */}
-                    <div className="flex items-center gap-2 pt-1">
-                      <Link
-                        href={`/products/${product.id}`}
-                        className="group relative flex items-center justify-center gap-2 px-4 sm:px-6 py-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white font-bold rounded-lg transition-all hover:scale-105 shadow-lg shadow-purple-500/30 text-sm overflow-hidden"
-                      >
-                        <span className="relative z-10 flex items-center gap-2">
-                          <ShoppingCart className="w-4 h-4" />
-                          Ver
-                        </span>
-                        <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                    <div className="mt-7 flex items-center gap-3">
+                      <Link href={`/products/${product.id}`} className="btn-gold group !py-3">
+                        Ver pieza
+                        <ArrowUpRight
+                          size={16}
+                          className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        />
                       </Link>
-
-                      <button className="group relative p-2 bg-slate-800/90 backdrop-blur-md hover:bg-slate-700 text-white rounded-lg transition-all hover:scale-105 border border-slate-700/50 overflow-hidden">
-                        <Heart className="w-4 h-4" />
-                        <div className="absolute inset-0 bg-red-500 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                      <button
+                        aria-label={`Guardar ${product.name} en favoritos`}
+                        className="grid h-11 w-11 place-items-center rounded-full border border-bone/25 bg-ink/30 text-bone backdrop-blur-sm transition-colors hover:border-gold hover:text-gold"
+                      >
+                        <Heart size={16} />
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
+          )
+        })}
 
-          {/* Botones de navegación compactos */}
-          <button
-            onClick={handlePrev}
-            className="absolute top-1/2 left-2 sm:left-4 -translate-y-1/2 p-1.5 sm:p-2 bg-slate-900/90 hover:bg-slate-800 text-white rounded-full z-20 transition-all hover:scale-110 border border-slate-700/50 backdrop-blur-md group"
-            aria-label="Anterior"
-          >
-            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:-translate-x-0.5" />
-          </button>
-
-          <button
-            onClick={handleNext}
-            className="absolute top-1/2 right-2 sm:right-4 -translate-y-1/2 p-1.5 sm:p-2 bg-slate-900/90 hover:bg-slate-800 text-white rounded-full z-20 transition-all hover:scale-110 border border-slate-700/50 backdrop-blur-md group"
-            aria-label="Siguiente"
-          >
-            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-0.5" />
-          </button>
-
-          {/* Indicadores compactos */}
-          <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-slate-900/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-700/50">
-            {products.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setIndex(i)}
-                className={`transition-all ${i === index
-                  ? 'w-6 h-1.5 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full shadow-lg shadow-purple-500/50'
-                  : 'w-1.5 h-1.5 bg-slate-600 hover:bg-slate-500 rounded-full'
+        {/* Progreso */}
+        <div className="absolute bottom-5 right-5 z-20 hidden gap-1.5 sm:flex lg:bottom-7 lg:right-7">
+          {products.map((product, i) => (
+            <button
+              key={product.id}
+              onClick={() => setIndex(i)}
+              aria-label={`Ir a la pieza ${i + 1}`}
+              aria-current={i === index}
+              className={`h-[3px] rounded-full transition-all duration-500 ${i === index ? 'w-8 bg-gold' : 'w-3 bg-bone/25 hover:bg-bone/50'
                 }`}
-              />
-            ))}
-          </div>
-
-          {/* Contador compacto */}
-          <div className="absolute top-3 sm:top-4 right-3 sm:right-4 px-2.5 py-1 bg-slate-900/90 backdrop-blur-md text-slate-200 text-xs sm:text-sm font-bold rounded-full z-20 border border-slate-700/50 flex items-center gap-1.5">
-            <span className="text-violet-400">{index + 1}</span>
-            <span className="text-slate-600">/</span>
-            <span>{products.length}</span>
-          </div>
+            />
+          ))}
         </div>
       </div>
     </section>

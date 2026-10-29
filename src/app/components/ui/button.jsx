@@ -10,7 +10,7 @@ export function Button({
 }) {
   const base = 'inline-flex items-center justify-center font-medium rounded-lg focus:outline-none transition-colors duration-200 select-none'
   const variants = {
-    solid: 'bg-violet-600 text-white hover:bg-violet-700 shadow-md',
+    solid: 'bg-gold text-ink hover:bg-gold-soft shadow-md',
     outline: 'bg-transparent border border-slate-700 text-white hover:bg-slate-800',
     ghost: 'bg-transparent text-white hover:bg-white/6',
   }

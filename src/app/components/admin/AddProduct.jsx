@@ -176,19 +176,25 @@
 
           {/* Categoría y Subcategoría */}
           <div className="grid grid-cols-2 gap-3 mb-3">
-            <select
-              value={form.category}
-              onChange={(e) => setForm({ ...form, category: e.target.value })}
-              className="p-3 bg-slate-800 border border-slate-700 rounded-lg"
-            >
-              <option value="">Categoría</option>
-              {categories.map((cat) => (
-                <option key={cat}>{cat}</option>
-              ))}
-            </select>
+            {/* Categoría con opción de elegir o escribir una nueva */}
+            <div>
+              <input
+                type="text"
+                list="categories-list"
+                placeholder="Categoría"
+                value={form.category || ""}
+                onChange={(e) => setForm({ ...form, category: e.target.value })}
+                className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg"
+              />
+              <datalist id="categories-list">
+                {categories.map((cat) => (
+                  <option key={cat} value={cat} />
+                ))}
+              </datalist>
+            </div>
 
             <select
-              value={form.subcategory}
+              value={form.subcategory || ""}
               onChange={(e) =>
                 setForm({ ...form, subcategory: e.target.value })
               }
@@ -198,7 +204,7 @@
               <option value="hombre">Hombre</option>
               <option value="mujer">Mujer</option>
             </select>
-          </div>
+          </div>  
 
           {/* Botón gestionar categorías SOLO admin, socios no crean categorías */}
           {isAdmin && (

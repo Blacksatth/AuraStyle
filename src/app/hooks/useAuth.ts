@@ -11,7 +11,7 @@ interface ExtendedUser {
   displayName: string | null
   role: "admin" | "seller" | "user"
   referralCode?: string   // ← este es el que necesitamos
-  [key: string]: any      // por si hay más campos
+  [key: string]: unknown  // por si hay más campos
 }
 
 export default function useAuth() {

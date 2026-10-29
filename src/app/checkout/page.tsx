@@ -349,22 +349,22 @@ export default function CheckoutPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-ink flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-violet-500/30 border-t-violet-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-400">Cargando checkout...</p>
+          <div className="w-16 h-16 border-4 border-gold/30 border-t-gold rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-ash">Cargando checkout...</p>
         </div>
       </div>
     )
   }
 
     return (
-      <div className="min-h-screen bg-slate-950">
+      <div className="min-h-screen bg-ink">
         {/* Header */}
-        <div className="bg-slate-900/50 border-b border-slate-800 sticky top-0 z-50 backdrop-blur-xl">
+        <div className="bg-surface/50 border-b border-line sticky top-0 z-50 backdrop-blur-xl">
           <div className="max-w-7xl mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              <Link href="/carrito" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+              <Link href="/carrito" className="flex items-center gap-2 text-ash hover:text-bone transition-colors">
                 <ArrowLeft className="w-5 h-5" />
                 <span className="font-semibold">Volver al carrito</span>
               </Link>
@@ -382,25 +382,25 @@ export default function CheckoutPage() {
             <div className="flex items-center justify-center gap-4 max-w-2xl mx-auto">
               <div className="flex items-center gap-3 flex-1">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${
-                  step >= 1 ? 'bg-violet-600 text-white' : 'bg-slate-800 text-slate-500'
+                  step >= 1 ? 'bg-gold text-ink' : 'bg-elevated text-ash/70'
                 }`}>
                   {step > 1 ? <CheckCircle className="w-5 h-5" /> : '1'}
                 </div>
                 <span className={`font-semibold transition-colors ${
-                  step >= 1 ? 'text-white' : 'text-slate-500'
+                  step >= 1 ? 'text-bone' : 'text-ash/70'
                 }`}>Información</span>
               </div>
               <div className={`flex-1 h-1 rounded-full transition-colors ${
-                step >= 2 ? 'bg-violet-600' : 'bg-slate-800'
+                step >= 2 ? 'bg-gold' : 'bg-elevated'
               }`}></div>
               <div className="flex items-center gap-3 flex-1">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${
-                  step >= 2 ? 'bg-violet-600 text-white' : 'bg-slate-800 text-slate-500'
+                  step >= 2 ? 'bg-gold text-ink' : 'bg-elevated text-ash/70'
                 }`}>
                   2
                 </div>
                 <span className={`font-semibold transition-colors ${
-                  step >= 2 ? 'text-white' : 'text-slate-500'
+                  step >= 2 ? 'text-bone' : 'text-ash/70'
                 }`}>Pago</span>
               </div>
             </div>
@@ -412,28 +412,28 @@ export default function CheckoutPage() {
               {step === 1 ? (
                 <>
                   {/* Información de Envío */}
-                  <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl border border-slate-700 p-6 shadow-xl">
+                  <div className="bg-surface rounded-2xl border border-line p-6 shadow-xl">
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="p-2 bg-violet-500/10 rounded-lg">
-                        <MapPin className="w-5 h-5 text-violet-400" />
+                      <div className="p-2 bg-gold/10 rounded-lg">
+                        <MapPin className="w-5 h-5 text-gold" />
                       </div>
-                      <h2 className="text-xl font-black text-white">Información de Envío</h2>
+                      <h2 className="text-xl font-black text-bone">Información de Envío</h2>
                     </div>
 
                     <div className="space-y-4">
                       {/* Nombre completo */}
                       <div>
-                        <label className="block text-sm font-bold text-slate-200 mb-2">
+                        <label className="block text-sm font-bold text-bone mb-2">
                           Nombre completo *
                         </label>
                         <div className="relative">
-                          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ash/70" />
                           <input
                             type="text"
                             value={shippingData.fullName}
                             onChange={(e) => setShippingData({...shippingData, fullName: e.target.value})}
                             placeholder="Juan Pérez"
-                            className="w-full pl-11 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                            className="w-full pl-11 pr-4 py-3 bg-elevated border border-line rounded-xl text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
                             required
                           />
                         </div>
@@ -442,34 +442,34 @@ export default function CheckoutPage() {
                       {/* Email y Teléfono */}
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-bold text-slate-200 mb-2">
+                          <label className="block text-sm font-bold text-bone mb-2">
                             Email *
                           </label>
                           <div className="relative">
-                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ash/70" />
                             <input
                               type="email"
                               value={shippingData.email}
                               onChange={(e) => setShippingData({...shippingData, email: e.target.value})}
                               placeholder="correo@ejemplo.com"
-                              className="w-full pl-11 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                              className="w-full pl-11 pr-4 py-3 bg-elevated border border-line rounded-xl text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
                               required
                             />
                           </div>
                         </div>
 
                         <div>
-                          <label className="block text-sm font-bold text-slate-200 mb-2">
+                          <label className="block text-sm font-bold text-bone mb-2">
                             Teléfono *
                           </label>
                           <div className="relative">
-                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ash/70" />
                             <input
                               type="tel"
                               value={shippingData.phone}
                               onChange={(e) => setShippingData({...shippingData, phone: e.target.value})}
                               placeholder="3001234567"
-                              className="w-full pl-11 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                              className="w-full pl-11 pr-4 py-3 bg-elevated border border-line rounded-xl text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
                               required
                             />
                           </div>
@@ -478,7 +478,7 @@ export default function CheckoutPage() {
 
                       {/* Dirección */}
                       <div>
-                        <label className="block text-sm font-bold text-slate-200 mb-2">
+                        <label className="block text-sm font-bold text-bone mb-2">
                           Dirección de envío *
                         </label>
                         <input
@@ -486,7 +486,7 @@ export default function CheckoutPage() {
                           value={shippingData.address}
                           onChange={(e) => setShippingData({...shippingData, address: e.target.value})}
                           placeholder="Calle 123 #45-67, Apartamento 801"
-                          className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                          className="w-full px-4 py-3 bg-elevated border border-line rounded-xl text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
                           required
                         />
                       </div>
@@ -494,7 +494,7 @@ export default function CheckoutPage() {
                       {/* Ciudad, Departamento y Código Postal */}
                       <div className="grid md:grid-cols-3 gap-4">
                         <div>
-                          <label className="block text-sm font-bold text-slate-200 mb-2">
+                          <label className="block text-sm font-bold text-bone mb-2">
                             Ciudad *
                           </label>
                           <input
@@ -502,13 +502,13 @@ export default function CheckoutPage() {
                             value={shippingData.city}
                             onChange={(e) => setShippingData({...shippingData, city: e.target.value})}
                             placeholder="Medellín"
-                            className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                            className="w-full px-4 py-3 bg-elevated border border-line rounded-xl text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
                             required
                           />
                         </div>
 
                         <div>
-                          <label className="block text-sm font-bold text-slate-200 mb-2">
+                          <label className="block text-sm font-bold text-bone mb-2">
                             Departamento *
                           </label>
                           <input
@@ -516,13 +516,13 @@ export default function CheckoutPage() {
                             value={shippingData.department}
                             onChange={(e) => setShippingData({...shippingData, department: e.target.value})}
                             placeholder="Antioquia"
-                            className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                            className="w-full px-4 py-3 bg-elevated border border-line rounded-xl text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
                             required
                           />
                         </div>
 
                         <div>
-                          <label className="block text-sm font-bold text-slate-200 mb-2">
+                          <label className="block text-sm font-bold text-bone mb-2">
                             Código Postal
                           </label>
                           <input
@@ -530,14 +530,14 @@ export default function CheckoutPage() {
                             value={shippingData.postalCode}
                             onChange={(e) => setShippingData({...shippingData, postalCode: e.target.value})}
                             placeholder="050001"
-                            className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                            className="w-full px-4 py-3 bg-elevated border border-line rounded-xl text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
                           />
                         </div>
                       </div>
 
                       {/* Notas adicionales */}
                       <div>
-                        <label className="block text-sm font-bold text-slate-200 mb-2">
+                        <label className="block text-sm font-bold text-bone mb-2">
                           Notas adicionales (opcional)
                         </label>
                         <textarea
@@ -545,32 +545,32 @@ export default function CheckoutPage() {
                           onChange={(e) => setShippingData({...shippingData, notes: e.target.value})}
                           placeholder="Instrucciones de entrega, punto de referencia, etc."
                           rows={3}
-                          className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all resize-none"
+                          className="w-full px-4 py-3 bg-elevated border border-line rounded-xl text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all resize-none"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Método de Envío */}
-                  <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl border border-slate-700 p-6 shadow-xl">
+                  <div className="bg-surface rounded-2xl border border-line p-6 shadow-xl">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 bg-violet-500/10 rounded-lg">
-                        <Truck className="w-5 h-5 text-violet-400" />
+                      <div className="p-2 bg-gold/10 rounded-lg">
+                        <Truck className="w-5 h-5 text-gold" />
                       </div>
-                      <h2 className="text-xl font-black text-white">Método de Envío</h2>
+                      <h2 className="text-xl font-black text-bone">Método de Envío</h2>
                     </div>
 
                     <div className="space-y-3">
-                      <div className="p-4 bg-slate-800/50 rounded-xl border-2 border-violet-500">
+                      <div className="p-4 bg-elevated/50 rounded-xl border-2 border-gold">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full border-4 border-violet-500 bg-violet-500"></div>
+                            <div className="w-5 h-5 rounded-full border-4 border-gold bg-gold"></div>
                             <div>
-                              <p className="font-bold text-white">Envío Estándar</p>
-                              <p className="text-xs text-slate-400">Entrega en 3-5 días hábiles</p>
+                              <p className="font-bold text-bone">Envío Estándar</p>
+                              <p className="text-xs text-ash">Entrega en 3-5 días hábiles</p>
                             </div>
                           </div>
-                          <span className="font-bold text-white">
+                          <span className="font-bold text-bone">
                             {shipping === 0 ? '¡GRATIS!' : `$${shipping.toLocaleString()}`}
                           </span>
                         </div>
@@ -588,21 +588,21 @@ export default function CheckoutPage() {
                 </>
               ) : (
                 /* Paso 2: Pago */
-                <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl border border-slate-700 p-6 shadow-xl">
+                <div className="bg-surface rounded-2xl border border-line p-6 shadow-xl">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-violet-500/10 rounded-lg">
-                      <CreditCard className="w-5 h-5 text-violet-400" />
+                    <div className="p-2 bg-gold/10 rounded-lg">
+                      <CreditCard className="w-5 h-5 text-gold" />
                     </div>
-                    <h2 className="text-xl font-black text-white">Método de Pago</h2>
+                    <h2 className="text-xl font-black text-bone">Método de Pago</h2>
                   </div>
 
                   <div className="text-center py-12 space-y-4">
-                    <div className="w-20 h-20 bg-violet-500/10 rounded-2xl flex items-center justify-center mx-auto border-2 border-violet-500/30">
-                      <Lock className="w-10 h-10 text-violet-400" />
+                    <div className="w-20 h-20 bg-gold/10 rounded-2xl flex items-center justify-center mx-auto border-2 border-gold/30">
+                      <Lock className="w-10 h-10 text-gold" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white mb-2">Pago Seguro con Wompi</h3>
-                      <p className="text-sm text-slate-400 max-w-md mx-auto">
+                      <h3 className="text-lg font-bold text-bone mb-2">Pago Seguro con Wompi</h3>
+                      <p className="text-sm text-ash max-w-md mx-auto">
                         Acepta tarjetas de crédito, débito, PSE y más. Tus datos están protegidos.
                       </p>
                     </div>
@@ -618,16 +618,16 @@ export default function CheckoutPage() {
 
             {/* Sidebar - Resumen */}
             <div className="lg:col-span-1">
-              <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl border border-slate-700 p-6 shadow-xl sticky top-24">
+              <div className="bg-surface rounded-2xl border border-line p-6 shadow-xl sticky top-24">
                 <div className="flex items-center gap-2 mb-6">
-                  <ShoppingBag className="w-5 h-5 text-violet-400" />
-                  <h3 className="text-lg font-black text-white">Resumen de Compra</h3>
+                  <ShoppingBag className="w-5 h-5 text-gold" />
+                  <h3 className="text-lg font-black text-bone">Resumen de Compra</h3>
                 </div>
 
                 {/* Productos */}
                 <div className="space-y-3 mb-6 max-h-64 overflow-y-auto">
                   {cartItems.map((item) => (
-                    <div key={item.id} className="flex gap-3 p-3 bg-slate-800/50 rounded-lg">
+                    <div key={item.id} className="flex gap-3 p-3 bg-elevated/50 rounded-lg">
                       <Image 
                         src={item.image} 
                         alt={item.name}
@@ -637,9 +637,9 @@ export default function CheckoutPage() {
                         unoptimized
                       />
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold text-white truncate">{item.name}</p>
-                        <p className="text-xs text-slate-400">Cantidad: {item.quantity}</p>
-                        <p className="text-sm font-bold text-violet-400 mt-1">
+                        <p className="text-sm font-bold text-bone truncate">{item.name}</p>
+                        <p className="text-xs text-ash">Cantidad: {item.quantity}</p>
+                        <p className="text-sm font-bold text-gold mt-1">
                           ${(item.price * item.quantity).toLocaleString()}
                         </p>
                       </div>
@@ -648,10 +648,10 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Cupón de descuento */}
-                <div className="mb-6 p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                <div className="mb-6 p-4 bg-elevated/50 rounded-xl border border-line">
                   <div className="flex items-center gap-2 mb-3">
-                    <Tag className="w-4 h-4 text-violet-400" />
-                    <span className="text-sm font-bold text-white">Cupón de descuento</span>
+                    <Tag className="w-4 h-4 text-gold" />
+                    <span className="text-sm font-bold text-bone">Cupón de descuento</span>
                   </div>
                   {appliedCoupon ? (
                     <div className="flex items-center justify-between p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
@@ -661,7 +661,7 @@ export default function CheckoutPage() {
                       </div>
                       <button
                         onClick={() => setAppliedCoupon(null)}
-                        className="text-xs text-slate-400 hover:text-white transition-colors"
+                        className="text-xs text-ash hover:text-bone transition-colors"
                       >
                         Quitar
                       </button>
@@ -677,11 +677,11 @@ export default function CheckoutPage() {
                             setCouponError('')
                           }}
                           placeholder="Código de cupón"
-                          className="flex-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 transition-all"
+                          className="flex-1 px-3 py-2 bg-elevated border border-line rounded-lg text-sm text-bone placeholder-ash/70 focus:outline-none focus:border-gold transition-all"
                         />
                         <button
                           onClick={applyCoupon}
-                          className="px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold rounded-lg transition-all"
+                          className="px-4 py-2 bg-gold hover:bg-gold-soft text-ink text-sm font-semibold rounded-lg transition-all"
                         >
                           Aplicar
                         </button>
@@ -697,10 +697,10 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Código de vendedor */}
-                <div className="mb-6 p-4 bg-violet-500/10 border border-violet-500/20 rounded-xl">
+                <div className="mb-6 p-4 bg-gold/10 border border-gold/20 rounded-xl">
                   <div className="flex items-center gap-2 mb-3">
-                    <Sparkles className="w-4 h-4 text-violet-400" />
-                    <span className="text-sm font-bold text-violet-300">¿Te vendió alguien?</span>
+                    <Sparkles className="w-4 h-4 text-gold" />
+                    <span className="text-sm font-bold text-gold-soft">¿Te vendió alguien?</span>
                   </div>
                   {appliedSellerInfo.code ? (
                     <div className="flex items-center justify-between p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
@@ -716,7 +716,7 @@ export default function CheckoutPage() {
                       </div>
                       <button
                         onClick={() => setAppliedSellerInfo({ id: null, code: null, name: null })}
-                        className="text-xs text-slate-400 hover:text-white transition-colors"
+                        className="text-xs text-ash hover:text-bone transition-colors"
                       >
                         Quitar
                       </button>
@@ -732,12 +732,12 @@ export default function CheckoutPage() {
                             setSellerCodeError('')
                           }}
                           placeholder="Código de vendedor"
-                          className="flex-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 transition-all font-semibold tracking-wider"
+                          className="flex-1 px-3 py-2 bg-elevated border border-line rounded-lg text-sm text-bone placeholder-ash/70 focus:outline-none focus:border-gold transition-all font-semibold tracking-wider"
                         />
                         <button
                           onClick={applySellerCode}
                           disabled={sellerCodeLoading}
-                          className="px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                          className="px-4 py-2 bg-gold hover:bg-gold-soft text-ink text-sm font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                         >
                           {sellerCodeLoading ? (
                             <Loader2 className="w-3 h-3 animate-spin" />
@@ -752,7 +752,7 @@ export default function CheckoutPage() {
                           {sellerCodeError}
                         </div>
                       )}
-                      <p className="text-xs text-violet-400/70 mt-2">
+                      <p className="text-xs text-gold/70 mt-2">
                         Si alguien te vendió este producto, ingresa su código y ganará el 10% en puntos
                       </p>
                     </div>
@@ -760,12 +760,12 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Totales */}
-                <div className="border-t border-slate-700 pt-6 space-y-3">
-                  <div className="flex justify-between text-slate-300">
+                <div className="border-t border-line pt-6 space-y-3">
+                  <div className="flex justify-between text-bone/80">
                     <span className="text-sm">Subtotal</span>
                     <span className="font-semibold">${subtotal.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-slate-300">
+                  <div className="flex justify-between text-bone/80">
                     <span className="text-sm">Envío</span>
                     <span className="font-semibold text-green-400">
                       {shipping === 0 ? 'GRATIS' : `$${shipping.toLocaleString()}`}
@@ -775,9 +775,9 @@ export default function CheckoutPage() {
                     <span className="text-sm font-semibold">Descuento (Cupón)</span>
                     <span className="font-bold">-${discount.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between pt-4 border-t border-slate-700/50">
-                    <span className="text-lg font-black text-white">Total a Pagar</span>
-                    <span className="text-xl font-black text-violet-400">${total.toLocaleString()}</span>
+                  <div className="flex justify-between pt-4 border-t border-line/50">
+                    <span className="text-lg font-black text-bone">Total a Pagar</span>
+                    <span className="text-xl font-black text-gold">${total.toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -791,7 +791,7 @@ export default function CheckoutPage() {
                           window.scrollTo(0, 0) // Subir al inicio de la página
                         }
                       }}
-                      className="w-full py-3 bg-violet-600 hover:bg-violet-700 text-white text-lg font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                      className="w-full py-3 bg-gold hover:bg-gold-soft text-ink text-lg font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                       disabled={cartItems.length === 0}
                     >
                       <CreditCard className="w-5 h-5" />
@@ -801,7 +801,7 @@ export default function CheckoutPage() {
                     <div className="space-y-3">
                       <button
                         onClick={processPayment}
-                        className="w-full py-3 bg-green-600 hover:bg-green-700 text-white text-lg font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                        className="w-full py-3 bg-green-600 hover:bg-green-700 text-bone text-lg font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                         disabled={processing || cartItems.length === 0}
                       >
                         {processing ? (
@@ -818,7 +818,7 @@ export default function CheckoutPage() {
                       </button>
                       <button
                         onClick={() => setStep(1)}
-                        className="w-full py-2 text-sm text-slate-400 hover:text-white transition-colors"
+                        className="w-full py-2 text-sm text-ash hover:text-bone transition-colors"
                         disabled={processing}
                       >
                         ← Volver a Información de Envío

@@ -121,6 +121,11 @@ export default function AdminPanel() {
     setEditId(null)
   }
   const handleEditProduct = (product: Product) => {
+    const extended = product as Product & {
+      partner?: string
+      brand?: string
+      commission?: string | number
+    }
     setForm({
       name: product.name,
       price: product.price.toString(),
@@ -131,11 +136,9 @@ export default function AdminPanel() {
       stock: product.stock.toString(),
       onSale: product.onSale,
       salePrice: product.salePrice ? product.salePrice.toString() : "",
-         partner: (product as any).partner || "",
-      brand: (product as any).brand || "",
-      commission: (product as any).commission
-        ? String((product as any).commission)
-        : "",
+      partner: extended.partner || "",
+      brand: extended.brand || "",
+      commission: extended.commission ? String(extended.commission) : "",
     })
     setEditId(product.id)
     window.scrollTo({ top: 0, behavior: "smooth" })

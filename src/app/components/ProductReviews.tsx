@@ -1,10 +1,10 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import { collection, addDoc, query, where, getDocs, orderBy, Timestamp, updateDoc, doc } from "firebase/firestore"
+import { collection, addDoc, query, where, getDocs, Timestamp, updateDoc, doc } from "firebase/firestore"
 import { db, auth } from "../lib/firebase"
 import { onAuthStateChanged, User } from "firebase/auth"
-import { Star, ThumbsUp, Filter, MessageSquare, Send, LogIn, TrendingUp, Clock, Award, ChevronDown, ChevronUp, Sparkles, UserCheck, Heart, ShoppingBag } from "lucide-react"
+import { Star, ThumbsUp, Filter, MessageSquare, Send, LogIn, TrendingUp, Clock, Award, ChevronDown, ChevronUp, Sparkles, UserCheck, ShoppingBag } from "lucide-react"
 import Link from "next/link"
 
 interface Review {
@@ -220,7 +220,7 @@ export default function ProductReviews({ productId, productName, productCategory
   // Obtener color del avatar
   const getAvatarColor = (email: string) => {
     const colors = [
-      'from-violet-500 to-purple-600',
+      'from-gold to-purple-600',
       'from-blue-500 to-cyan-600',
       'from-green-500 to-emerald-600',
       'from-orange-500 to-red-600',
@@ -238,41 +238,41 @@ export default function ProductReviews({ productId, productName, productCategory
     <div className="space-y-6 relative">
       {/* Elementos decorativos de fondo */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-violet-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-fuchsia-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gold/5 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gold/5 rounded-full blur-3xl"></div>
       </div>
 
       {/* Header de Reseñas */}
       <div className={`flex items-center gap-3 transition-all duration-500 ${animateItems ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
-        <div className="p-2 bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 rounded-xl border border-violet-500/30 shadow-lg shadow-violet-500/10">
-          <MessageSquare className="w-6 h-6 text-violet-400" />
+        <div className="p-2 bg-gradient-to-br from-gold/20 to-gold-soft/20 rounded-xl border border-gold/30 shadow-lg shadow-gold/10">
+          <MessageSquare className="w-6 h-6 text-gold" />
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-bone flex items-center gap-2">
             Reseñas de Clientes
             <Sparkles className="w-5 h-5 text-amber-400 animate-pulse" />
           </h2>
-          <p className="text-sm text-slate-400">Opiniones verificadas de compradores</p>
+          <p className="text-sm text-ash">Opiniones verificadas de compradores</p>
         </div>
       </div>
 
       {/* Información del producto */}
       {(productName || productCategory || productSubcategory) && (
-        <div className={`bg-gradient-to-r from-slate-900/50 to-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-4 transition-all duration-500 delay-100 ${animateItems ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+        <div className={`bg-gradient-to-r from-surface/60 to-elevated/40 backdrop-blur-sm rounded-xl border border-line/50 p-4 transition-all duration-500 delay-100 ${animateItems ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-violet-500/10 rounded-lg">
-              <ShoppingBag className="w-5 h-5 text-violet-400" />
+            <div className="p-2 bg-gold/10 rounded-lg">
+              <ShoppingBag className="w-5 h-5 text-gold" />
             </div>
             <div className="flex-1">
-              <h3 className="text-sm font-bold text-white">{productName || "Producto"}</h3>
+              <h3 className="text-sm font-bold text-bone">{productName || "Producto"}</h3>
               <div className="flex items-center gap-2 mt-1">
                 {productCategory && (
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-800 text-slate-300">
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-elevated text-bone/80">
                     {productCategory}
                   </span>
                 )}
                 {productSubcategory && (
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-violet-500/20 text-violet-300 border border-violet-500/30">
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gold/10 text-gold-soft border border-gold/30">
                     {productSubcategory}
                   </span>
                 )}
@@ -285,14 +285,14 @@ export default function ProductReviews({ productId, productName, productCategory
       {/* Resumen de Calificaciones - Compacto */}
       <div className={`grid md:grid-cols-3 gap-4 transition-all duration-500 delay-200 ${animateItems ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
         {/* Calificación General */}
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl border border-slate-700 p-5 relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 rounded-full blur-2xl group-hover:blur-xl transition-all"></div>
+        <div className="bg-surface rounded-xl border border-line p-5 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-gold/10 to-gold-soft/10 rounded-full blur-2xl group-hover:blur-xl transition-all"></div>
           <div className="text-center relative z-10">
             <div className="inline-flex items-end gap-1.5 mb-2">
-              <span className="text-4xl font-black text-white leading-none">
+              <span className="text-4xl font-black text-bone leading-none">
                 {averageRating.toFixed(1)}
               </span>
-              <span className="text-xl text-slate-400 pb-1">/5</span>
+              <span className="text-xl text-ash pb-1">/5</span>
             </div>
             <div className="flex items-center justify-center gap-0.5 mb-2">
               {[...Array(5)].map((_, i) => (
@@ -301,16 +301,16 @@ export default function ProductReviews({ productId, productName, productCategory
                   className={`w-5 h-5 transition-all ${
                     i < Math.round(averageRating)
                       ? "fill-amber-400 text-amber-400"
-                      : "fill-slate-700 text-slate-700"
+                      : "fill-line text-line"
                   }`}
                 />
               ))}
             </div>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-ash">
               {reviews.length} {reviews.length === 1 ? "reseña" : "reseñas"}
             </p>
-            <div className="mt-3 pt-3 border-t border-slate-700">
-              <div className="flex items-center justify-center gap-1.5 text-violet-400">
+            <div className="mt-3 pt-3 border-t border-line">
+              <div className="flex items-center justify-center gap-1.5 text-gold">
                 <Award className="w-4 h-4" />
                 <span className="text-xs font-semibold">Verificada</span>
               </div>
@@ -319,8 +319,8 @@ export default function ProductReviews({ productId, productName, productCategory
         </div>
 
         {/* Distribución de Calificaciones */}
-        <div className="bg-slate-900 rounded-xl border border-slate-800 p-5 md:col-span-2">
-          <h3 className="text-sm font-bold text-slate-300 mb-3 flex items-center gap-2">
+        <div className="bg-surface rounded-xl border border-line p-5 md:col-span-2">
+          <h3 className="text-sm font-bold text-bone/80 mb-3 flex items-center gap-2">
             <Filter className="w-4 h-4" />
             Distribución de calificaciones
           </h3>
@@ -334,20 +334,20 @@ export default function ProductReviews({ productId, productName, productCategory
                 }`}
               >
                 <div className="flex items-center gap-1 w-12">
-                  <span className="text-sm font-medium text-slate-300">{stars}</span>
+                  <span className="text-sm font-medium text-bone/80">{stars}</span>
                   <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
                 </div>
-                <div className="flex-1 h-2.5 bg-slate-800 rounded-full overflow-hidden relative">
+                <div className="flex-1 h-2.5 bg-elevated rounded-full overflow-hidden relative">
                   <div
                     className={`h-full rounded-full transition-all duration-700 ease-out ${
                       filterRating === stars 
-                        ? 'bg-gradient-to-r from-violet-500 to-fuchsia-500' 
-                        : 'bg-gradient-to-r from-amber-400 to-orange-500'
+                        ? 'bg-gradient-to-r from-gold to-gold-soft' 
+                        : 'bg-gold'
                     }`}
                     style={{ width: `${percentage}%` }}
                   />
                 </div>
-                <span className="text-sm font-medium text-slate-400 w-8 text-right">
+                <span className="text-sm font-medium text-ash w-8 text-right">
                   {count}
                 </span>
               </button>
@@ -356,7 +356,7 @@ export default function ProductReviews({ productId, productName, productCategory
           {filterRating && (
             <button
               onClick={() => setFilterRating(null)}
-              className="mt-3 text-sm text-violet-400 hover:text-violet-300 font-medium transition-colors flex items-center gap-1"
+              className="mt-3 text-sm text-gold hover:text-gold-soft font-medium transition-colors flex items-center gap-1"
             >
               ✕ Limpiar filtro
             </button>
@@ -365,21 +365,21 @@ export default function ProductReviews({ productId, productName, productCategory
       </div>
 
       {/* Formulario de Nueva Reseña - Compacto */}
-      <div className={`bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl border border-slate-700 p-5 shadow-xl transition-all duration-500 delay-300 ${animateItems ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+      <div className={`bg-surface rounded-xl border border-line p-5 shadow-xl transition-all duration-500 delay-300 ${animateItems ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 rounded-xl border border-violet-500/30">
-              <Send className="w-5 h-5 text-violet-400" />
+            <div className="p-2 bg-gradient-to-br from-gold/20 to-gold-soft/20 rounded-xl border border-gold/30">
+              <Send className="w-5 h-5 text-gold" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Comparte tu experiencia</h3>
-              <p className="text-sm text-slate-400">Tu opinión ayuda a otros</p>
+              <h3 className="text-lg font-bold text-bone">Comparte tu experiencia</h3>
+              <p className="text-sm text-ash">Tu opinión ayuda a otros</p>
             </div>
           </div>
           {!showReviewForm && user && (
             <button
               onClick={() => setShowReviewForm(true)}
-              className="px-4 py-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white text-sm font-semibold rounded-lg transition-all hover:scale-105 shadow-lg shadow-violet-500/25"
+              className="px-4 py-2 bg-gold hover:bg-gold-soft text-ink text-sm font-semibold rounded-lg transition-all hover:scale-105 shadow-lg shadow-gold/20"
             >
               Escribir reseña
             </button>
@@ -388,31 +388,31 @@ export default function ProductReviews({ productId, productName, productCategory
         
         {authLoading ? (
           <div className="text-center py-8">
-            <div className="w-10 h-10 border-2 border-violet-500/30 border-t-violet-500 rounded-full animate-spin mx-auto mb-3"></div>
-            <p className="text-sm text-slate-400">Verificando...</p>
+            <div className="w-10 h-10 border-2 border-gold/30 border-t-gold rounded-full animate-spin mx-auto mb-3"></div>
+            <p className="text-sm text-ash">Verificando...</p>
           </div>
         ) : !user ? (
           <div className="text-center py-8 space-y-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 rounded-xl flex items-center justify-center mx-auto border border-violet-500/30">
-              <LogIn className="w-8 h-8 text-violet-400" />
+            <div className="w-16 h-16 bg-gradient-to-br from-gold/20 to-gold-soft/20 rounded-xl flex items-center justify-center mx-auto border border-gold/30">
+              <LogIn className="w-8 h-8 text-gold" />
             </div>
             <div className="max-w-sm mx-auto">
-              <h4 className="text-lg font-bold text-white mb-2">¡Queremos conocer tu opinión!</h4>
-              <p className="text-slate-400 text-sm">
+              <h4 className="text-lg font-bold text-bone mb-2">¡Queremos conocer tu opinión!</h4>
+              <p className="text-ash text-sm">
                 Inicia sesión para compartir tu experiencia
               </p>
             </div>
             <div className="flex gap-3 justify-center">
               <Link
                 href="/inicio"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white text-sm font-bold rounded-lg transition-all hover:scale-105 shadow-lg shadow-violet-500/25"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-gold hover:bg-gold-soft text-ink text-sm font-bold rounded-lg transition-all hover:scale-105 shadow-lg shadow-gold/20"
               >
                 <LogIn className="w-4 h-4" />
                 Iniciar Sesión
               </Link>
               <Link
                 href="/register"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold rounded-lg border border-slate-700 transition-all hover:scale-105"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-elevated hover:bg-elevated text-bone text-sm font-semibold rounded-lg border border-line transition-all hover:scale-105"
               >
                 Crear Cuenta
               </Link>
@@ -420,20 +420,20 @@ export default function ProductReviews({ productId, productName, productCategory
           </div>
         ) : showReviewForm ? (
           <form onSubmit={handleSubmitReview} className="space-y-4">
-            <div className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
-              <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${getAvatarColor(user.email || '')} flex items-center justify-center text-white font-bold text-sm flex-shrink-0`}>
+            <div className="flex items-center gap-3 p-3 bg-elevated/50 rounded-lg border border-line">
+              <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${getAvatarColor(user.email || '')} flex items-center justify-center text-bone font-bold text-sm flex-shrink-0`}>
                 {(user.displayName || user.email)?.[0]?.toUpperCase() || 'U'}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-white truncate">
+                <p className="text-sm font-bold text-bone truncate">
                   {user.displayName || user.email?.split('@')[0] || 'Usuario'}
                 </p>
-                <p className="text-xs text-slate-400 truncate">{user.email}</p>
+                <p className="text-xs text-ash truncate">{user.email}</p>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-slate-200 mb-2">
+              <label className="block text-sm font-bold text-bone mb-2">
                 Calificación
               </label>
               <div className="flex items-center gap-2">
@@ -450,7 +450,7 @@ export default function ProductReviews({ productId, productName, productCategory
                       className={`w-8 h-8 transition-all ${
                         star <= (hoverRating || rating)
                           ? "fill-amber-400 text-amber-400"
-                          : "fill-slate-700 text-slate-700 hover:fill-slate-600"
+                          : "fill-line text-line hover:fill-ash"
                       }`}
                     />
                   </button>
@@ -464,7 +464,7 @@ export default function ProductReviews({ productId, productName, productCategory
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-slate-200 mb-2">
+              <label className="block text-sm font-bold text-bone mb-2">
                 Tu comentario
               </label>
               <textarea
@@ -475,14 +475,14 @@ export default function ProductReviews({ productId, productName, productCategory
                 placeholder="Comparte tu experiencia con este producto..."
                 rows={4}
                 maxLength={500}
-                className={`w-full px-4 py-3 bg-slate-800 border rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none transition-all resize-none ${
+                className={`w-full px-4 py-3 bg-elevated border rounded-lg text-sm text-bone placeholder-ash/70 focus:outline-none transition-all resize-none ${
                   focusedField === 'comment' 
-                    ? 'border-violet-500 ring-2 ring-violet-500/20' 
-                    : 'border-slate-700'
+                    ? 'border-gold ring-2 ring-gold/20' 
+                    : 'border-line'
                 }`}
                 required
               />
-              <p className={`text-sm font-medium mt-1 ${comment.length >= 10 ? 'text-green-400' : 'text-slate-500'}`}>
+              <p className={`text-sm font-medium mt-1 ${comment.length >= 10 ? 'text-green-400' : 'text-ash/70'}`}>
                 {comment.length} / 500
               </p>
             </div>
@@ -495,14 +495,14 @@ export default function ProductReviews({ productId, productName, productCategory
                   setRating(0);
                   setComment('');
                 }}
-                className="flex-1 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold rounded-lg border border-slate-700 transition-all"
+                className="flex-1 px-4 py-2.5 bg-elevated hover:bg-elevated text-bone text-sm font-semibold rounded-lg border border-line transition-all"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 disabled={submitting || rating === 0 || comment.trim().length < 10}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white text-sm font-bold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-violet-500/25"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gold hover:bg-gold-soft text-ink text-sm font-bold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-gold/20"
               >
                 {submitting ? (
                   <>
@@ -520,7 +520,7 @@ export default function ProductReviews({ productId, productName, productCategory
           </form>
         ) : (
           <div className="text-center py-4">
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-ash">
               Haz clic en &quot;Escribir reseña&quot; para compartir tu opinión
             </p>
           </div>
@@ -531,8 +531,8 @@ export default function ProductReviews({ productId, productName, productCategory
       {reviews.length > 0 && (
         <div className={`flex flex-wrap items-center gap-3 transition-all duration-500 delay-400 ${animateItems ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
           <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-slate-400" />
-            <span className="text-sm font-medium text-slate-400">Ordenar:</span>
+            <Filter className="w-4 h-4 text-ash" />
+            <span className="text-sm font-medium text-ash">Ordenar:</span>
           </div>
           <div className="flex flex-wrap gap-2">
             {[
@@ -545,8 +545,8 @@ export default function ProductReviews({ productId, productName, productCategory
                 onClick={() => setSortBy(value as typeof sortBy)}
                 className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg transition-all ${
                   sortBy === value
-                    ? "bg-violet-600 text-white shadow-lg shadow-violet-500/25"
-                    : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200"
+                    ? "bg-gold text-ink shadow-lg shadow-gold/20"
+                    : "bg-elevated text-ash hover:bg-elevated hover:text-bone"
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -561,18 +561,18 @@ export default function ProductReviews({ productId, productName, productCategory
       <div id="reviews-list" className="space-y-4">
         {loading ? (
           <div className="text-center py-12">
-            <div className="w-12 h-12 border-2 border-violet-500/30 border-t-violet-500 rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-sm text-slate-400">Cargando reseñas...</p>
+            <div className="w-12 h-12 border-2 border-gold/30 border-t-gold rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-sm text-ash">Cargando reseñas...</p>
           </div>
         ) : sortedReviews.length === 0 ? (
-          <div className="text-center py-12 bg-slate-900 rounded-xl border border-slate-800">
-            <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
-              <MessageSquare className="w-8 h-8 text-slate-600" />
+          <div className="text-center py-12 bg-surface rounded-xl border border-line">
+            <div className="w-16 h-16 bg-elevated rounded-full flex items-center justify-center mx-auto mb-4">
+              <MessageSquare className="w-8 h-8 text-ash/50" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">
+            <h3 className="text-lg font-bold text-bone mb-2">
               {filterRating ? `No hay reseñas con ${filterRating} estrellas` : "Aún no hay reseñas"}
             </h3>
-            <p className="text-sm text-slate-400 max-w-md mx-auto">
+            <p className="text-sm text-ash max-w-md mx-auto">
               {filterRating 
                 ? "Prueba con otro filtro para ver más opiniones"
                 : "Sé el primero en compartir tu experiencia con este producto"}
@@ -583,13 +583,13 @@ export default function ProductReviews({ productId, productName, productCategory
             {displayedReviews.map((review, index) => (
               <div
                 key={review.id}
-                className={`bg-slate-900 rounded-xl border border-slate-800 p-5 hover:border-slate-700 transition-all hover:shadow-lg hover:shadow-slate-900/50 ${
+                className={`bg-surface rounded-xl border border-line p-5 hover:border-line transition-all hover:shadow-lg hover:shadow-black/50 ${
                   animateItems ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
                 style={{ transitionDelay: `${500 + index * 100}ms` }}
               >
                 <div className="flex items-start gap-3">
-                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${getAvatarColor(review.userEmail)} flex items-center justify-center text-white font-bold text-sm flex-shrink-0`}>
+                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${getAvatarColor(review.userEmail)} flex items-center justify-center text-bone font-bold text-sm flex-shrink-0`}>
                     {review.userName.charAt(0).toUpperCase()}
                   </div>
 
@@ -597,7 +597,7 @@ export default function ProductReviews({ productId, productName, productCategory
                     <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-bold text-white text-sm truncate">{review.userName}</span>
+                          <span className="font-bold text-bone text-sm truncate">{review.userName}</span>
                           <div className="flex items-center gap-1 px-2 py-0.5 bg-green-500/10 border border-green-500/20 rounded-full flex-shrink-0">
                             <UserCheck className="w-3 h-3 text-green-500" />
                             <span className="text-xs font-semibold text-green-400">Verificado</span>
@@ -611,13 +611,13 @@ export default function ProductReviews({ productId, productName, productCategory
                                 className={`w-4 h-4 ${
                                   i < review.rating
                                     ? "fill-amber-400 text-amber-400"
-                                    : "fill-slate-700 text-slate-700"
+                                    : "fill-line text-line"
                                 }`}
                               />
                             ))}
                           </div>
-                          <span className="text-xs text-slate-500">•</span>
-                          <span className="text-xs text-slate-500 flex items-center gap-1">
+                          <span className="text-xs text-ash/70">•</span>
+                          <span className="text-xs text-ash/70 flex items-center gap-1">
                             <Clock className="w-3 h-3" />
                             {formatDate(review.createdAt)}
                           </span>
@@ -625,26 +625,26 @@ export default function ProductReviews({ productId, productName, productCategory
                       </div>
                     </div>
 
-                    <p className="text-slate-300 text-sm leading-relaxed mb-4">
+                    <p className="text-bone/80 text-sm leading-relaxed mb-4">
                       {review.comment}
                     </p>
 
                     <div className="flex items-center gap-4">
                       <button 
                         onClick={() => handleHelpful(review.id, review.helpful)}
-                        className="flex items-center gap-2 text-xs text-slate-400 hover:text-violet-400 transition-colors group"
+                        className="flex items-center gap-2 text-xs text-ash hover:text-gold transition-colors group"
                       >
                         <ThumbsUp className="w-4 h-4 group-hover:scale-110 transition-transform" />
                         <span className="font-medium">Útil ({review.helpful})</span>
                       </button>
                       {review.productCategory && (
-                        <div className="flex items-center gap-1 text-xs text-slate-500">
+                        <div className="flex items-center gap-1 text-xs text-ash/70">
                           <ShoppingBag className="w-3 h-3" />
                           <span>{review.productCategory}</span>
                           {review.productSubcategory && (
                             <>
                               <span>•</span>
-                              <span className="text-violet-400">{review.productSubcategory}</span>
+                              <span className="text-gold">{review.productSubcategory}</span>
                             </>
                           )}
                         </div>
@@ -658,7 +658,7 @@ export default function ProductReviews({ productId, productName, productCategory
             {sortedReviews.length > 3 && (
               <button
                 onClick={() => setShowAllReviews(!showAllReviews)}
-                className={`w-full px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-xl border border-slate-800 hover:border-slate-700 transition-all flex items-center justify-center gap-2 ${
+                className={`w-full px-5 py-3 bg-surface hover:bg-elevated text-bone text-sm font-semibold rounded-xl border border-line hover:border-line transition-all flex items-center justify-center gap-2 ${
                   animateItems ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
                 style={{ transitionDelay: `${500 + displayedReviews.length * 100}ms` }}

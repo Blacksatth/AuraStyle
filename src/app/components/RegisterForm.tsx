@@ -267,22 +267,22 @@ export default function RegisterForm() {
   // ================================
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4">
-        <div className="max-w-md w-full text-center bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl border border-slate-700 p-8 shadow-2xl">
+      <div className="min-h-screen flex items-center justify-center bg-ink p-4">
+        <div className="max-w-md w-full text-center bg-surface rounded-3xl border border-line p-8 shadow-2xl">
           <div className="w-24 h-24 mx-auto bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mb-6 animate-bounce">
-            <CheckCircle className="w-12 h-12 text-white" />
+            <CheckCircle className="w-12 h-12 text-bone" />
           </div>
-          <h2 className="text-3xl font-black text-white mb-2">¡Registro Exitoso! 🎉</h2>
-          <p className="text-slate-400 mb-6">Tu cuenta de vendedor ha sido creada</p>
-          <div className="bg-slate-900/50 p-5 rounded-xl border border-slate-700 mb-6">
-            <p className="text-sm text-slate-400 mb-1">Tu código de referido:</p>
-            <p className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
+          <h2 className="text-3xl font-black text-bone mb-2">¡Registro Exitoso! 🎉</h2>
+          <p className="text-ash mb-6">Tu cuenta de vendedor ha sido creada</p>
+          <div className="bg-surface/50 p-5 rounded-xl border border-line mb-6">
+            <p className="text-sm text-ash mb-1">Tu código de referido:</p>
+            <p className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold to-gold-soft">
               {generatedCode}
             </p>
           </div>
           <button
             onClick={() => (window.location.href = "/inicio")}
-            className="w-full px-6 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold rounded-xl hover:scale-105 transition-all"
+            className="w-full px-6 py-4 bg-gold text-ink font-bold rounded-xl hover:scale-105 transition-all"
           >
             Ir a Iniciar Sesión
           </button>
@@ -292,17 +292,17 @@ export default function RegisterForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-ink p-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-violet-500/20">
-            <span className="text-white font-black text-3xl">G</span>
+          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-gold to-gold-soft rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-gold/20">
+            <span className="font-display text-3xl italic text-ink">A</span>
           </div>
-          <h1 className="text-4xl font-black text-white">Únete a GorraStyle</h1>
-          <p className="text-slate-400 mt-2 text-balance">Crea tu cuenta profesional y comienza a ganar comisiones</p>
+          <h1 className="text-4xl font-black text-bone">Únete a AuraStyle</h1>
+          <p className="text-ash mt-2 text-balance">Crea tu cuenta profesional y comienza a ganar comisiones</p>
         </div>
 
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 rounded-3xl p-8 shadow-2xl">
+        <div className="bg-surface border border-line rounded-3xl p-8 shadow-2xl">
           {error && (
             <div className="mb-5 p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
               <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
@@ -338,22 +338,22 @@ export default function RegisterForm() {
 
           {/* Línea divisoria */}
           <div className="flex items-center my-6">
-            <hr className="flex-grow border-slate-700" />
-            <span className="px-3 text-slate-500 text-sm font-medium">o regístrate con email</span>
-            <hr className="flex-grow border-slate-700" />
+            <hr className="flex-grow border-line" />
+            <span className="px-3 text-ash/70 text-sm font-medium">o regístrate con email</span>
+            <hr className="flex-grow border-line" />
           </div>
 
           {/* Inputs */}
           <div className="space-y-4">
             {/* Nombre */}
             <div className="relative">
-              <User className="absolute left-3 top-4 text-slate-500 w-5 h-5" />
+              <User className="absolute left-3 top-4 text-ash/70 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Nombre completo"
                 value={formData.name}
                 onChange={(e) => handleChange("name", e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-800/60 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-elevated/60 border border-line text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
               />
               {formData.name && (
                 <div className="absolute right-3 top-4">
@@ -368,13 +368,13 @@ export default function RegisterForm() {
 
             {/* Email */}
             <div className="relative">
-              <Mail className="absolute left-3 top-4 text-slate-500 w-5 h-5" />
+              <Mail className="absolute left-3 top-4 text-ash/70 w-5 h-5" />
               <input
                 type="email"
                 placeholder="Correo electrónico"
                 value={formData.email}
                 onChange={(e) => handleChange("email", e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-800/60 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-elevated/60 border border-line text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
               />
               {formData.email && (
                 <div className="absolute right-3 top-4">
@@ -389,13 +389,13 @@ export default function RegisterForm() {
 
             {/* Contraseña */}
             <div className="relative">
-              <Lock className="absolute left-3 top-4 text-slate-500 w-5 h-5" />
+              <Lock className="absolute left-3 top-4 text-ash/70 w-5 h-5" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Contraseña (mínimo 6 caracteres)"
                 value={formData.password}
                 onChange={(e) => handleChange("password", e.target.value)}
-                className="w-full pl-10 pr-20 py-3 rounded-xl bg-slate-800/60 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                className="w-full pl-10 pr-20 py-3 rounded-xl bg-elevated/60 border border-line text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
               />
               <div className="absolute right-3 top-3 flex items-center gap-2">
                 {formData.password &&
@@ -407,7 +407,7 @@ export default function RegisterForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="text-slate-500 hover:text-slate-300 transition-colors"
+                  className="text-ash/70 hover:text-bone/80 transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -416,13 +416,13 @@ export default function RegisterForm() {
 
             {/* Confirmar contraseña */}
             <div className="relative">
-              <Lock className="absolute left-3 top-4 text-slate-500 w-5 h-5" />
+              <Lock className="absolute left-3 top-4 text-ash/70 w-5 h-5" />
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="Confirmar contraseña"
                 value={formData.confirmPassword}
                 onChange={(e) => handleChange("confirmPassword", e.target.value)}
-                className="w-full pl-10 pr-20 py-3 rounded-xl bg-slate-800/60 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                className="w-full pl-10 pr-20 py-3 rounded-xl bg-elevated/60 border border-line text-bone placeholder-ash/70 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
               />
               <div className="absolute right-3 top-3 flex items-center gap-2">
                 {formData.confirmPassword &&
@@ -434,7 +434,7 @@ export default function RegisterForm() {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="text-slate-500 hover:text-slate-300 transition-colors"
+                  className="text-ash/70 hover:text-bone/80 transition-colors"
                 >
                   {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -451,7 +451,7 @@ export default function RegisterForm() {
               !validations.passwordValid ||
               !validations.passwordMatch
             }
-            className="w-full mt-6 flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold rounded-xl hover:scale-[1.02] transition-all shadow-lg shadow-violet-500/25 hover:shadow-xl hover:shadow-violet-500/40 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="w-full mt-6 flex items-center justify-center gap-2 px-6 py-4 bg-gold text-ink font-bold rounded-xl hover:scale-[1.02] transition-all shadow-lg shadow-gold/20 hover:shadow-xl hover:shadow-gold/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             {loading ? (
               <>
@@ -465,9 +465,9 @@ export default function RegisterForm() {
             )}
           </button>
 
-          <p className="text-center text-sm text-slate-500 mt-4">
+          <p className="text-center text-sm text-ash/70 mt-4">
             ¿Ya tienes cuenta?{" "}
-            <a href="/inicio" className="text-violet-400 hover:text-violet-300 font-semibold transition-colors">
+            <a href="/inicio" className="text-gold hover:text-gold-soft font-semibold transition-colors">
               Inicia sesión aquí
             </a>
           </p>

@@ -112,43 +112,44 @@ export default function CartModal({
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="relative w-full sm:w-[440px] h-full bg-gradient-to-b from-slate-950 to-slate-900 shadow-2xl flex flex-col rounded-l-3xl border-l border-slate-800 z-[10000]"
+              className="relative w-full sm:w-[440px] h-full bg-ink shadow-2xl flex flex-col rounded-l-3xl border-l border-line z-[10000]"
               onClick={(e) => e.stopPropagation()} // Evita que el click dentro cierre
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-5 border-b border-slate-800 bg-slate-950">
+              <div className="flex items-center justify-between px-6 py-5 border-b border-line bg-ink">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-gradient-to-br from-fuchsia-600/20 to-violet-600/20 rounded-xl">
-                    <ShoppingBag className="w-5 h-5 text-fuchsia-400" />
+                  <div className="p-2 bg-gold/10 rounded-xl">
+                    <ShoppingBag className="w-5 h-5 text-gold" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-bold text-white">Tu Carrito</h2>
-                    <p className="text-xs text-slate-400">
-                      {cartItems.length}{" "}
-                      {cartItems.length === 1 ? "producto" : "productos"}
+                    <h2 className="text-lg font-medium text-bone">Tu carrito</h2>
+                    <p className="text-xs text-ash">
+                      {cartItems.length}{' '}
+                      {cartItems.length === 1 ? 'pieza' : 'piezas'}
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-all duration-200 hover:rotate-90"
+                  aria-label="Cerrar carrito"
+                  className="p-2 text-ash hover:text-bone hover:bg-elevated rounded-lg transition-all duration-200"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Lista de productos */}
-              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
                 {cartItems.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full text-center">
-                    <div className="p-6 bg-slate-800/30 rounded-2xl mb-4">
-                      <ShoppingBag className="w-16 h-16 text-slate-600 mx-auto mb-3" />
+                    <div className="p-6 bg-elevated rounded-2xl mb-4">
+                      <ShoppingBag className="w-16 h-16 text-ash/40 mx-auto mb-3" />
                     </div>
-                    <p className="text-base text-slate-300 font-semibold mb-1">
+                    <p className="text-base text-bone font-medium mb-1">
                       Tu carrito está vacío
                     </p>
-                    <p className="text-sm text-slate-500">
-                      Agrega productos para continuar
+                    <p className="text-sm text-ash">
+                      Agrega una pieza para continuar
                     </p>
                   </div>
                 ) : (
@@ -169,9 +170,9 @@ export default function CartModal({
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className="flex items-start gap-4 bg-slate-800/40 hover:bg-slate-800/60 rounded-2xl p-4 border border-slate-700/50 transition-all group"
+                        className="flex items-start gap-4 bg-surface hover:bg-elevated rounded-2xl p-4 border border-line transition-all group"
                       >
-                        <div className="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border border-slate-700 bg-slate-800">
+                        <div className="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border border-line bg-elevated">
                           <Image
                             src={getImage(item) || "/placeholder.svg"}
                             alt={item.name}
@@ -181,7 +182,7 @@ export default function CartModal({
                             unoptimized
                           />
                           {hasDiscount && (
-                            <div className="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-lg flex items-center gap-1 shadow-lg">
+                            <div className="absolute top-2 right-2 bg-gold text-ink text-[10px] font-semibold px-2 py-1 rounded-lg flex items-center gap-1 shadow-lg">
                               <Tag size={10} />
                               OFERTA
                             </div>
@@ -189,21 +190,21 @@ export default function CartModal({
                         </div>
 
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-bold text-white mb-1 truncate">
+                          <h3 className="text-sm font-medium text-bone mb-1 truncate">
                             {item.name}
                           </h3>
                           <div className="mb-3">
                             {hasDiscount ? (
                               <div className="flex items-center gap-2">
-                                <span className="text-base text-green-400 font-black">
+                                <span className="text-base text-gold font-medium">
                                   ${formatPrice(finalPrice)}
                                 </span>
-                                <span className="text-xs text-slate-500 line-through">
+                                <span className="text-xs text-ash line-through">
                                   ${formatPrice(item.price)}
                                 </span>
                               </div>
                             ) : (
-                              <span className="text-base text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-500 font-black">
+                              <span className="text-base text-gold font-medium">
                                 ${formatPrice(finalPrice)}
                               </span>
                             )}
@@ -213,16 +214,18 @@ export default function CartModal({
                             <button
                               onClick={() => onDecrease(item.id)}
                               disabled={item.quantity <= 1}
-                              className="w-8 h-8 flex items-center justify-center text-white bg-slate-700 hover:bg-slate-600 disabled:bg-slate-800 disabled:text-slate-600 rounded-lg transition-colors"
+                              aria-label="Reducir cantidad"
+                              className="w-8 h-8 flex items-center justify-center text-bone bg-elevated hover:bg-line disabled:bg-surface disabled:text-ash/40 rounded-lg transition-colors"
                             >
                               <Minus size={16} />
                             </button>
-                            <span className="text-white text-sm font-bold w-8 text-center">
+                            <span className="text-bone text-sm font-medium w-8 text-center">
                               {item.quantity}
                             </span>
                             <button
                               onClick={() => onIncrease(item.id)}
-                              className="w-8 h-8 flex items-center justify-center text-white bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors"
+                              aria-label="Aumentar cantidad"
+                              className="w-8 h-8 flex items-center justify-center text-bone bg-elevated hover:bg-line rounded-lg transition-colors"
                             >
                               <Plus size={16} />
                             </button>
@@ -231,8 +234,9 @@ export default function CartModal({
 
                         <button
                           onClick={() => onRemove(item.id)}
-                          className="p-2 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                          className="p-2 text-ash hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
                           title="Eliminar del carrito"
+                          aria-label={`Eliminar ${item.name} del carrito`}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -244,10 +248,10 @@ export default function CartModal({
 
               {/* Footer */}
               {cartItems.length > 0 && (
-                <div className="p-6 border-t border-slate-800 bg-slate-950 space-y-3">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Total</span>
-                    <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-500">
+                <div className="p-6 border-t border-line bg-ink space-y-3">
+                  <div className="flex justify-between items-baseline text-sm">
+                    <span className="text-ash">Total</span>
+                    <span className="text-2xl font-medium text-gold">
                       ${formatPrice(getTotal())}
                     </span>
                   </div>
@@ -257,7 +261,7 @@ export default function CartModal({
                       href={`https://wa.me/573025636290?text=${getWhatsAppMessage()}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-green-700 text-white font-semibold text-base py-4 rounded-xl transition-all shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                      className="flex items-center justify-center gap-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm py-4 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
                     >
                       <MessageCircle className="w-5 h-5" />
                       Comprar por WhatsApp
@@ -266,9 +270,9 @@ export default function CartModal({
                     <button
                       onClick={() => {
                         onClose()
-                        router.push("/checkout")
+                        router.push('/checkout')
                       }}
-                      className="w-full bg-gradient-to-r from-fuchsia-600 via-violet-600 to-indigo-600 hover:from-fuchsia-700 hover:via-violet-700 hover:to-indigo-700 text-white font-bold text-base py-4 rounded-xl transition-all shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full bg-gold hover:bg-gold-soft text-ink font-medium text-sm py-4 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
                     >
                       Finalizar compra
                     </button>

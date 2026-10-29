@@ -269,7 +269,7 @@ export default function ProfessionalSalesDashboard() {
               <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <select
                 value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value as any)}
+                onChange={(e) => setStatusFilter(e.target.value as "all" | "credited" | "pending")}
                 className="pl-9 pr-8 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm"
               >
                 <option value="all">Todos</option>

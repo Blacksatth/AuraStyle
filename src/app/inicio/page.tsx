@@ -188,20 +188,25 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white px-4 overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center bg-ink text-bone px-4 overflow-hidden">
       {/* Fondo animado */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute w-[900px] h-[900px] bg-violet-600/20 rounded-full blur-3xl animate-pulse-slow top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute w-[600px] h-[600px] bg-fuchsia-500/10 rounded-full blur-2xl animate-float top-[10%] left-[60%]"></div>
-        <div className="absolute w-[500px] h-[500px] bg-indigo-400/10 rounded-full blur-2xl animate-float-slow top-[70%] left-[20%]"></div>
+        <div className="absolute w-[900px] h-[900px] bg-gold/10 rounded-full blur-3xl animate-pulse-slow top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute w-[600px] h-[600px] bg-gold-soft/5 rounded-full blur-2xl animate-float top-[10%] left-[60%]"></div>
+        <div className="absolute w-[500px] h-[500px] bg-gold-deep/10 rounded-full blur-2xl animate-float-slow top-[70%] left-[20%]"></div>
       </div>
 
       {/* Contenedor del formulario */}
-      <div className="relative z-10 w-full max-w-md bg-slate-800/60 backdrop-blur-xl rounded-2xl shadow-xl border border-slate-700 p-8 animate-fadeIn">
-        <h2 className="text-3xl font-bold mb-6 text-center flex justify-center items-center gap-2">
-          <Lock className="w-6 h-6 text-violet-400" />
-          Iniciar sesión
-        </h2>
+      <div className="relative z-10 w-full max-w-md bg-elevated/50 backdrop-blur-xl rounded-3xl shadow-2xl border border-line p-8 sm:p-10 animate-fadeIn">
+        <div className="mb-8 text-center">
+          <div className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-gold/40 bg-gold/5">
+            <Lock className="w-5 h-5 text-gold" />
+          </div>
+          <h2 className="mt-4 text-3xl font-light">Iniciar sesión</h2>
+          <p className="mt-1.5 text-xs tracking-wide text-ash">
+            Accede para gestionar tus pedidos
+          </p>
+        </div>
 
         {error && (
           <div className="bg-red-500/20 border border-red-500 text-red-400 py-3 px-4 mb-4 rounded-md text-sm animate-shake">
@@ -209,7 +214,7 @@ export default function LoginForm() {
             {error.includes('no está registrada') && (
               <a 
                 href="/registro" 
-                className="text-violet-300 hover:text-violet-200 underline mt-1 inline-block"
+                className="text-gold-soft hover:text-gold-soft underline mt-1 inline-block"
               >
                 Ir a registro →
               </a>
@@ -220,17 +225,17 @@ export default function LoginForm() {
         <div className="space-y-4">
           {/* Campo de correo */}
           <div className="relative">
-            <Mail className="absolute left-3 top-3 text-slate-400 w-5 h-5" />
+            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ash w-5 h-5" />
             <input
               type="email"
               name="email"
               placeholder="Correo electrónico"
-              className={`w-full pl-10 pr-10 py-2 rounded-md bg-slate-700 focus:ring-2 focus:outline-none placeholder:text-slate-400 transition ${
+              className={`w-full pl-11 pr-10 py-3 rounded-xl border border-line bg-ink/50 text-sm focus:ring-2 focus:outline-none placeholder:text-ash transition ${
                 formData.email
                   ? validations.emailValid
                     ? 'focus:ring-green-500'
                     : 'focus:ring-amber-500'
-                  : 'focus:ring-violet-500'
+                  : 'focus:ring-gold'
               }`}
               value={formData.email}
               onChange={handleChange}
@@ -238,7 +243,7 @@ export default function LoginForm() {
             />
 
             {formData.email && (
-              <div className="absolute right-3 top-3.5">
+              <div className="absolute right-3.5 top-1/2 -translate-y-1/2">
                 {validations.emailValid ? (
                   <CheckCircle className="w-5 h-5 text-green-500" />
                 ) : (
@@ -250,18 +255,18 @@ export default function LoginForm() {
 
           {/* Campo de contraseña */}
           <div className="relative">
-            <Lock className="absolute left-3 top-3 text-slate-400 w-5 h-5" />
+            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ash w-5 h-5" />
 
             <input
               type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Contraseña"
-              className={`w-full pl-10 pr-20 py-2 rounded-md bg-slate-700 focus:ring-2 focus:outline-none placeholder:text-slate-400 transition ${
+              className={`w-full pl-11 pr-20 py-3 rounded-xl border border-line bg-ink/50 text-sm focus:ring-2 focus:outline-none placeholder:text-ash transition ${
                 formData.password
                   ? validations.passwordValid
                     ? 'focus:ring-green-500'
                     : 'focus:ring-amber-500'
-                  : 'focus:ring-violet-500'
+                  : 'focus:ring-gold'
               }`}
               value={formData.password}
               onChange={handleChange}
@@ -270,7 +275,7 @@ export default function LoginForm() {
 
             {/* Icono de validación */}
             {formData.password && (
-              <div className="absolute right-9 top-3.5">
+              <div className="absolute right-10 top-1/2 -translate-y-1/2">
                 {validations.passwordValid ? (
                   <CheckCircle className="w-5 h-5 text-green-500" />
                 ) : (
@@ -283,7 +288,7 @@ export default function LoginForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-2 top-2.5 text-slate-400 hover:text-slate-200 transition"
+              className="absolute right-3 top-1/2 -translate-y-1/2 grid h-8 w-8 place-items-center rounded-full text-ash hover:text-bone transition"
               tabIndex={-1}
             >
               {showPassword ? (
@@ -298,10 +303,10 @@ export default function LoginForm() {
           <button
             onClick={handleLogin}
             disabled={loading || !validations.emailValid || !validations.passwordValid}
-            className={`w-full flex justify-center items-center gap-2 py-2 rounded-md font-medium transition-all duration-300 ${
+            className={`w-full flex justify-center items-center gap-2 py-3 rounded-full font-medium text-sm tracking-wide transition-all duration-300 ${
               loading || !validations.emailValid || !validations.passwordValid
-                ? 'bg-slate-700 cursor-not-allowed'
-                : 'bg-violet-600 hover:bg-violet-700 hover:scale-[1.02]'
+                ? 'bg-elevated text-ash/60 border border-line cursor-not-allowed'
+                : 'bg-gold text-ink hover:bg-gold-soft hover:scale-[1.02]'
             }`}
           >
             {loading ? (
@@ -320,10 +325,10 @@ export default function LoginForm() {
           {/* Divisor */}
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-600"></div>
+              <div className="w-full border-t border-line"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-slate-800/60 text-slate-400">o continúa con</span>
+              <span className="px-2 bg-elevated/60 text-ash">o continúa con</span>
             </div>
           </div>
 
@@ -331,7 +336,7 @@ export default function LoginForm() {
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full flex justify-center items-center gap-2 py-2 rounded-md font-medium bg-white text-slate-900 hover:bg-gray-200 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex justify-center items-center gap-2 py-3 rounded-full font-medium text-sm bg-white text-slate-900 hover:bg-gray-100 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
           >
            <>
                            {/* 👈 Corregido: uso de componente Image de Next.js */}
@@ -350,9 +355,9 @@ export default function LoginForm() {
 
         {/* Enlace de registro */}
         <div className="text-center mt-6">
-          <p className="text-slate-400 text-sm">
+          <p className="text-ash text-sm">
             ¿No tienes cuenta?
-            <a href="/registro" className="text-violet-400 hover:underline ml-1">
+            <a href="/registro" className="text-gold hover:underline ml-1">
               Regístrate aquí
             </a>
           </p>

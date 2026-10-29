@@ -6,12 +6,12 @@ import Link from 'next/link'
 import { useCart } from '../context/CartContext'
 import { useEffect, useState } from 'react'
 import { Product } from '../types/Product'
-import { ShoppingCart, Percent } from 'lucide-react'
+import { Plus, Search, SlidersHorizontal, X } from 'lucide-react'
 
 export default function ProductGrid() {
   const [products, setProducts] = useState<Product[]>([])
-  const [filter, setFilter] = useState<string>("")
-  const [searchTerm, setSearchTerm] = useState("")
+  const [filter, setFilter] = useState<string>('')
+  const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
   const { addToCart } = useCart()
 
@@ -25,168 +25,215 @@ export default function ProductGrid() {
     })
   }, [])
 
-  const categories = [...new Set(products.map((p) => p.category ?? ""))]
+  const categories = [...new Set(products.map((p) => p.category ?? ''))].filter(Boolean)
   const filtered = products
     .filter((p) => !filter || p.category === filter)
     .filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()))
 
   const capitalize = (text: string) =>
-    text ? text.charAt(0).toUpperCase() + text.slice(1) : ""
+    text ? text.charAt(0).toUpperCase() + text.slice(1) : ''
 
   const getImage = (img?: string | string[] | null) =>
-    Array.isArray(img) ? img[0] : img ?? "/placeholder.png"
+    Array.isArray(img) ? img[0] : img ?? '/placeholder.png'
 
   const calculateDiscount = (price: number, salePrice: number) =>
     Math.round(((price - salePrice) / price) * 100)
 
   const formatPrice = (price: number) =>
     new Intl.NumberFormat('es-CO', {
-      
-      currency: 'COP',
       minimumFractionDigits: 0,
     }).format(price)
-  
 
   return (
-    <section id="productos" className="py-5 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Título */}
-      <div className="text-center mb-4">
-        <h2 className="text-3xl md:text-4xl font-black text-white mb-1">Nuestros Productos</h2>
-        <p className="text-slate-400 text-lg">Encuentra el estilo perfecto para ti</p>
-      </div>
+    <section id="productos" className="border-t border-line py-16 sm:py-20">
+      <div className="container-edge">
+        {/* Encabezado */}
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <p className="eyebrow">Catálogo</p>
+            <h2 className="mt-3 font-display text-4xl font-light leading-tight text-bone sm:text-5xl">
+              Elige tu próxima <span className="italic text-gold">obsesión</span>
+            </h2>
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-ash">
+              Cada pieza pasa por una curaduría de materiales, acabados y silueta. Nada entra
+              al catálogo por casualidad.
+            </p>
+          </div>
 
-      {/* Buscador */}
-      <div className="max-w-xl mx-auto mb-4">
-        <input
-          type="text"
-          placeholder="Buscar producto..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-4 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 focus:ring-2 focus:ring-violet-500 focus:outline-none transition"
-        />
-      </div>
+          <div className="lg:col-span-5">
+            <label htmlFor="product-search" className="sr-only">
+              Buscar producto
+            </label>
+            <div className="relative">
+              <Search
+                size={17}
+                className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-ash"
+                aria-hidden="true"
+              />
+              <input
+                id="product-search"
+                type="search"
+                placeholder="Buscar por nombre…"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full rounded-full border border-line bg-surface py-3.5 pl-12 pr-12 text-sm text-bone placeholder:text-ash/70 transition-colors focus:border-gold/60 focus:outline-none"
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm('')}
+                  aria-label="Limpiar búsqueda"
+                  className="absolute right-4 top-1/2 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full text-ash transition-colors hover:text-bone"
+                >
+                  <X size={15} />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
 
-      {/* Filtros */}
-      <div className="flex flex-wrap justify-center gap-3 mb-10">
-        <button
-          onClick={() => setFilter("")}
-          className={`px-5 py-2.5 rounded-xl font-semibold transition-all ${
-            filter === ""
-              ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-purple-500/30'
-              : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
-          }`}
-        >
-          Todos
-        </button>
-        {categories.map((cat, idx) => (
-          <button
-            key={idx}
-            onClick={() => setFilter(cat)}
-            className={`px-5 py-2.5 rounded-xl font-semibold transition-all ${
-              filter === cat
-                ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-purple-500/30'
-                : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
-            }`}
-          >
-            {capitalize(cat)}
-          </button>
-        ))}
-      </div>
-
-      {/* Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5">
-        {loading
-          ? Array.from({ length: 8 }).map((_, idx) => (
-              <div
-                key={idx}
-                className="animate-pulse bg-slate-800 rounded-xl aspect-[3/4]"
-              ></div>
-            ))
-          : filtered.length > 0
-          ? filtered.map((product) => (
-              <div
-                key={product.id}
-                className="group bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-violet-500/50 transition-all hover:shadow-lg hover:shadow-violet-500/10 flex flex-col opacity-0 animate-fadeIn text-xs sm:text-sm"
-                style={{ animationDelay: `${Math.random() * 0.3}s`, animationFillMode: 'forwards' }}
+        {/* Filtros */}
+        <div className="mt-8 flex items-center gap-3 overflow-x-auto pb-1">
+          <span className="hidden items-center gap-2 text-xs uppercase tracking-[0.16em] text-ash sm:flex">
+            <SlidersHorizontal size={14} />
+            Filtrar
+          </span>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setFilter('')}
+              aria-pressed={filter === ''}
+              className={`whitespace-nowrap rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-[0.12em] transition-all duration-300 ${filter === ''
+                  ? 'bg-gold text-ink'
+                  : 'border border-line text-ash hover:border-gold/40 hover:text-bone'
+                }`}
+            >
+              Todo
+            </button>
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                aria-pressed={filter === cat}
+                className={`whitespace-nowrap rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-[0.12em] transition-all duration-300 ${filter === cat
+                    ? 'bg-gold text-ink'
+                    : 'border border-line text-ash hover:border-gold/40 hover:text-bone'
+                  }`}
               >
-                <Link href={`/products/${product.id}`} className="relative">
-                  <div className="aspect-[3/4] sm:aspect-square relative bg-slate-800">
+                {capitalize(cat)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Grid */}
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+          {loading
+            ? Array.from({ length: 8 }).map((_, idx) => (
+              <div key={idx} className="overflow-hidden rounded-xl border border-line bg-surface">
+                <div className="aspect-[4/5] animate-pulse bg-elevated" />
+                <div className="space-y-3 p-4">
+                  <div className="h-3 w-2/3 animate-pulse rounded bg-elevated" />
+                  <div className="h-3 w-1/3 animate-pulse rounded bg-elevated" />
+                </div>
+              </div>
+            ))
+            : filtered.length > 0
+              ? filtered.map((product, idx) => (
+                <article
+                  key={product.id}
+                  className="group relative overflow-hidden rounded-xl border border-line bg-surface opacity-0 transition-colors duration-300 hover:border-gold/40 animate-fadeIn"
+                  style={{ animationDelay: `${Math.min(idx, 5) * 0.05}s`, animationFillMode: 'forwards' }}
+                >
+                  <Link
+                    href={`/products/${product.id}`}
+                    className="relative block aspect-[4/5] overflow-hidden bg-elevated"
+                    aria-label={`Ver ${product.name}`}
+                  >
                     <Image
                       src={getImage(product.image)}
                       alt={product.name}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                       unoptimized
                     />
-                    {/* Badge de oferta */}
-                    {product.onSale && product.salePrice && (
-                      <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
-                        <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg font-bold text-[10px] sm:text-xs shadow-lg flex items-center gap-1">
-                          <Percent className="w-3 h-3" />
-                          -{calculateDiscount(product.price, product.salePrice)}%
-                        </div>
-                      </div>
-                    )}
-                    {/* Badge de categoría */}
-                    {product.category && (
-                      <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
-                        <div className="bg-slate-900/90 backdrop-blur-sm text-slate-200 px-2 py-0.5 sm:px-2 sm:py-1 rounded-lg text-[10px] sm:text-xs font-semibold border border-slate-700/50">
-                          {capitalize(product.category)}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </Link>
 
-                <div className="p-3 sm:p-4 flex flex-col flex-1">
-                  <Link href={`/products/${product.id}`}>
-                    <h3 className="font-bold text-white text-xs sm:text-sm mb-1 line-clamp-1 group-hover:text-violet-400 transition">
-                      {product.name}
-                    </h3>
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-100" />
+
+                    <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
+                      {product.category && (
+                        <span className="rounded-full border border-bone/20 bg-ink/50 px-2.5 py-1 text-[9px] uppercase tracking-[0.14em] text-bone backdrop-blur-md">
+                          {capitalize(product.category)}
+                        </span>
+                      )}
+                      {product.onSale && product.salePrice && (
+                        <span className="rounded-full bg-gold px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-ink">
+                          -{calculateDiscount(product.price, product.salePrice)}%
+                        </span>
+                      )}
+                    </div>
+
+                    <span className="absolute inset-x-3 bottom-3 hidden translate-y-2 items-center justify-center rounded-full border border-bone/30 bg-ink/40 py-2.5 text-[11px] uppercase tracking-[0.16em] text-bone opacity-0 backdrop-blur-md transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 sm:flex">
+                      Ver detalles
+                    </span>
                   </Link>
 
-                  <div className="mb-2 sm:mb-3">
-                    {product.onSale && product.salePrice ? (
-                      <div>
-                        <p className="text-slate-500 line-through text-[11px] sm:text-xs">{formatPrice(product.price)}
-</p>
-                        <p className="text-green-400 font-black text-base sm:text-lg">{formatPrice(product.salePrice)}
-                        </p>
-                      </div>
-                    ) : (
-                      <p className="text-base sm:text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-500">
-                        ${formatPrice(product.price)}
-                      </p>
-                    )}
-                  </div>
+                  <div className="flex flex-col p-3.5 sm:p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <Link href={`/products/${product.id}`} className="min-w-0">
+                        <h3 className="truncate text-sm font-medium text-bone transition-colors group-hover:text-gold">
+                          {product.name}
+                        </h3>
+                      </Link>
+                      <button
+                        onClick={() => addToCart(product)}
+                        aria-label={`Añadir ${product.name} al carrito`}
+                        className="grid h-8 w-8 flex-shrink-0 place-items-center rounded-full border border-line text-ash transition-all duration-300 hover:border-gold hover:bg-gold hover:text-ink"
+                      >
+                        <Plus size={15} />
+                      </button>
+                    </div>
 
+                    <div className="mt-2.5 flex items-baseline gap-2">
+                      {product.onSale && product.salePrice ? (
+                        <>
+                          <span className="text-base font-medium text-gold">
+                            ${formatPrice(product.salePrice)}
+                          </span>
+                          <span className="text-xs text-ash line-through">
+                            ${formatPrice(product.price)}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-base font-medium text-gold">
+                          ${formatPrice(product.price)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              ))
+              : (
+                <div className="col-span-full flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-line py-20 text-center">
+                  <Search size={24} className="text-ash" />
+                  <div>
+                    <p className="font-display text-2xl text-bone">Sin resultados</p>
+                    <p className="mt-1 text-sm text-ash">
+                      Prueba con otra palabra o cambia el filtro.
+                    </p>
+                  </div>
                   <button
-                    onClick={() => addToCart(product)}
-                    className="mt-auto w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 rounded-lg text-white font-bold transition-all hover:scale-105 shadow-md sm:shadow-lg shadow-purple-500/30 flex items-center justify-center gap-1 sm:gap-2 text-[11px] sm:text-sm"
-                    aria-label={`Añadir ${product.name} al carrito`}
+                    onClick={() => {
+                      setSearchTerm('')
+                      setFilter('')
+                    }}
+                    className="btn-ghost !px-5 !py-2.5 !text-xs"
                   >
-                    <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" /> Añadir
+                    Ver todo el catálogo
                   </button>
                 </div>
-              </div>
-            ))
-          : (
-            <div className="col-span-full text-center py-20">
-              <p className="text-slate-400 text-lg">No se encontraron productos</p>
-            </div>
-          )}
+              )}
+        </div>
       </div>
-
-      {/* Animación Fade-in */}
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.5s ease forwards;
-        }
-      `}</style>
     </section>
   )
 }

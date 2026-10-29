@@ -66,10 +66,10 @@ export default function ProductClient({ id }: { id: string }) {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-ink flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-3 border-violet-500/30 border-t-violet-500 rounded-full animate-spin mx-auto mb-3"></div>
-          <p className="text-slate-400 text-sm">Cargando producto...</p>
+          <div className="w-12 h-12 border-3 border-gold/30 border-t-gold rounded-full animate-spin mx-auto mb-3"></div>
+          <p className="text-ash text-sm">Cargando producto...</p>
         </div>
       </div>
     )
@@ -81,15 +81,15 @@ export default function ProductClient({ id }: { id: string }) {
   const effectivePrice = product.onSale && product.salePrice !== undefined ? product.salePrice : product.price
 
   return (
-    <div className="bg-slate-950 text-white min-h-screen relative overflow-hidden">
+    <div className="bg-ink text-bone min-h-screen relative overflow-hidden">
       {/* Fondo animado tipo aurora */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-900 via-slate-950 to-black" />
-      <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[90vw] h-[90vw] max-w-5xl rounded-full bg-gradient-to-r from-fuchsia-700/10 via-violet-600/10 to-indigo-600/10 blur-3xl opacity-80 animate-pulse" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-surface via-ink to-ink" />
+      <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[90vw] h-[90vw] max-w-5xl rounded-full bg-gradient-to-r from-gold/10 via-gold/5 to-transparent blur-3xl opacity-80 animate-pulse" />
 
       {/* Header */}
-      <div className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800/50 sticky top-0 z-10">
+      <div className="bg-ink/80 backdrop-blur-md border-b border-line sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-sm">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-ash hover:text-bone transition-colors text-sm">
             <ArrowLeft className="w-3.5 h-3.5" />
             Volver
           </Link>
@@ -98,12 +98,12 @@ export default function ProductClient({ id }: { id: string }) {
 
       {/* Contenido principal con fondo mejorado */}
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-3 py-8 lg:py-3">
-        <div className="relative bg-slate-900/70 backdrop-blur-xl border border-slate-800/70 shadow-2xl shadow-violet-900/30 rounded-3xl p-6 lg:p-8 transition-all hover:shadow-violet-700/25 hover:border-violet-600/30">
+        <div className="relative bg-surface/70 backdrop-blur-xl border border-line shadow-2xl shadow-black/40 rounded-3xl p-6 lg:p-8 transition-all hover:shadow-gold/10 hover:border-gold/30">
 
           <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
             {/* Galería */}
             <div className="space-y-3">
-              <div className="relative aspect-square bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 shadow-inner shadow-slate-900/60 group">
+              <div className="relative aspect-square bg-ink rounded-2xl overflow-hidden border border-line shadow-inner shadow-black/60 group">
                 <Image
                   src={images[activeImageIndex] || "/placeholder.svg"}
                   alt={product.name}
@@ -116,7 +116,7 @@ export default function ProductClient({ id }: { id: string }) {
                   }}
                 />
                 {product.onSale && product.salePrice !== undefined && (
-                  <span className="absolute top-3 left-3 bg-gradient-to-r from-pink-600 to-fuchsia-600 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-md">
+                  <span className="absolute top-3 left-3 bg-gold text-ink text-xs font-bold px-2 py-1 rounded-lg shadow-md">
                     En oferta
                   </span>
                 )}
@@ -125,13 +125,13 @@ export default function ProductClient({ id }: { id: string }) {
                     onClick={() => setIsFavorite(!isFavorite)}
                     className={`p-2 rounded-full backdrop-blur-md border border-white/10 transition-all ${
                       isFavorite
-                        ? 'bg-red-500/90 text-white'
-                        : 'bg-slate-900/80 hover:bg-slate-800 text-white'
+                        ? 'bg-red-500/90 text-bone'
+                        : 'bg-ink/80 hover:bg-elevated text-bone'
                     }`}
                   >
                     <Heart className="w-4 h-4" fill={isFavorite ? 'currentColor' : 'none'} />
                   </button>
-                  <button className="p-2 bg-slate-900/80 backdrop-blur-md border border-white/10 hover:bg-slate-800 text-white rounded-full transition-all">
+                  <button className="p-2 bg-ink/80 backdrop-blur-md border border-white/10 hover:bg-elevated text-bone rounded-full transition-all">
                     <Share2 className="w-4 h-4" />
                   </button>
                 </div>
@@ -145,8 +145,8 @@ export default function ProductClient({ id }: { id: string }) {
                     onClick={() => setActiveImageIndex(i)}
                     className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all ${
                       activeImageIndex === i
-                        ? 'border-violet-500 shadow-md shadow-violet-500/40 scale-105'
-                        : 'border-slate-800 hover:border-slate-700'
+                        ? 'border-gold shadow-md shadow-gold/30 scale-105'
+                        : 'border-line hover:border-line'
                     }`}
                   >
                     <Image
@@ -164,38 +164,38 @@ export default function ProductClient({ id }: { id: string }) {
             {/* Info del producto */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="px-3 py-1 bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-semibold rounded-full">
+                <span className="px-3 py-1 bg-gold/10 border border-gold/20 text-gold text-xs font-semibold rounded-full">
                   {product.category}
                 </span>
                 <div className="flex items-center gap-0.5">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   ))}
-                  <span className="text-xs text-slate-400 ml-1.5">(4.8)</span>
+                  <span className="text-xs text-ash ml-1.5">(4.8)</span>
                 </div>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+              <h1 className="text-2xl sm:text-3xl font-black text-bone leading-tight">
                 {product.name}
               </h1>
 
               <div className="flex items-baseline gap-3">
                 {product.onSale && product.salePrice !== undefined ? (
                   <>
-                    <span className="text-3xl font-black text-red-400">
+                    <span className="text-3xl font-black text-gold">
                       ${product.salePrice.toLocaleString()}
                     </span>
-                    <span className="text-sm text-slate-400">COP</span>
-                    <span className="text-lg text-slate-500 line-through">
+                    <span className="text-sm text-ash">COP</span>
+                    <span className="text-lg text-ash/70 line-through">
                       ${product.price.toLocaleString()}
                     </span>
                   </>
                 ) : (
                   <>
-                    <span className="text-3xl font-black text-white">
+                    <span className="text-3xl font-black text-bone">
                       ${product.price.toLocaleString()}
                     </span>
-                    <span className="text-sm text-slate-400">COP</span>
+                    <span className="text-sm text-ash">COP</span>
                   </>
                 )}
               </div>
@@ -203,27 +203,27 @@ export default function ProductClient({ id }: { id: string }) {
               {product.stock !== undefined && (
                 <div className="flex items-center gap-1.5">
                   <div className={`w-1.5 h-1.5 rounded-full ${product.stock > 0 ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-ash">
                     {product.stock > 0 ? `${product.stock} disponibles` : 'Agotado'}
                   </span>
                 </div>
               )}
 
-              <div className="p-4 bg-slate-900 rounded-xl border border-slate-800">
+              <div className="p-4 bg-surface rounded-xl border border-line">
                 <h3 className="text-sm font-bold mb-2">Descripción</h3>
-                <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-line line-clamp-4">
+                <p className="text-bone/80 text-sm leading-relaxed whitespace-pre-line line-clamp-4">
                   {product.description || "Este producto no tiene descripción disponible."}
                 </p>
               </div>
 
-              <div className="p-4 bg-slate-900 rounded-xl border border-slate-800">
+              <div className="p-4 bg-surface rounded-xl border border-line">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-bold">Cantidad</span>
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => decreaseQuantity(product.id)}
                       disabled={!cartItem}
-                      className="p-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="p-1.5 bg-elevated hover:bg-elevated rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       <Minus size={16} />
                     </button>
@@ -241,16 +241,16 @@ export default function ProductClient({ id }: { id: string }) {
                           })
                         }
                       }}
-                      className="p-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors"
+                      className="p-1.5 bg-elevated hover:bg-elevated rounded-lg transition-colors"
                     >
                       <Plus size={16} />
                     </button>
                   </div>
                 </div>
                 
-                <div className="flex items-center justify-between pt-3 mt-3 border-t border-slate-800">
-                  <span className="text-sm text-slate-400">Subtotal:</span>
-                  <span className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-500">
+                <div className="flex items-center justify-between pt-3 mt-3 border-t border-line">
+                  <span className="text-sm text-ash">Subtotal:</span>
+                  <span className="text-xl font-black text-gold">
                     ${cartItem 
                       ? (cartItem.quantity * effectivePrice).toLocaleString()
                       : "0"}
@@ -269,7 +269,7 @@ export default function ProductClient({ id }: { id: string }) {
                     }
                     router.push("/checkout")
                   }}
-                  className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white text-sm font-bold rounded-xl transition-all hover:scale-105 shadow-lg shadow-purple-500/25"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-gold hover:bg-gold-soft text-ink text-sm font-bold rounded-xl transition-all hover:scale-105 shadow-lg shadow-purple-500/25"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   Comprar
@@ -279,7 +279,7 @@ export default function ProductClient({ id }: { id: string }) {
                   href={`https://wa.me/573025636290?text=${encodeURIComponent(whatsappMessage)}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center justify-center gap-2 px-4 py-3 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl transition-all hover:scale-105"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-green-600 hover:bg-green-700 text-bone text-sm font-bold rounded-xl transition-all hover:scale-105"
                 >
                   <MessageCircle className="w-4 h-4" />
                   WhatsApp
@@ -303,7 +303,7 @@ export default function ProductClient({ id }: { id: string }) {
                 const recPrice = p.onSale && p.salePrice !== undefined ? p.salePrice : p.price
                 return (
                   <Link key={p.id} href={`/products/${p.id}`} scroll={true}>
-                    <div className="group bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-violet-500/50 transition-all hover:scale-105">
+                    <div className="group bg-surface rounded-xl overflow-hidden border border-line hover:border-gold/40 transition-all hover:scale-105">
                       <div className="relative aspect-square">
                         <Image
                           src={Array.isArray(p.image) ? p.image[0] : p.image}
@@ -313,19 +313,19 @@ export default function ProductClient({ id }: { id: string }) {
                           className="object-cover group-hover:scale-110 transition-transform"
                         />
                         {p.onSale && p.salePrice !== undefined && (
-                          <span className="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-lg shadow">
+                          <span className="absolute top-2 left-2 bg-red-600 text-bone text-[10px] font-bold px-2 py-0.5 rounded-lg shadow">
                             Oferta
                           </span>
                         )}
                       </div>
                       <div className="p-3">
-                        <h3 className="font-bold text-white text-sm mb-1.5 line-clamp-1">{p.name}</h3>
+                        <h3 className="font-bold text-bone text-sm mb-1.5 line-clamp-1">{p.name}</h3>
                         <div className="flex items-center gap-2">
-                          <p className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-500">
+                          <p className="text-xl font-black text-gold">
                             ${recPrice.toLocaleString()}
                           </p>
                           {p.onSale && p.salePrice !== undefined && (
-                            <p className="text-xs text-slate-500 line-through">
+                            <p className="text-xs text-ash/70 line-through">
                               ${p.price.toLocaleString()}
                             </p>
                           )}
@@ -346,7 +346,7 @@ export default function ProductClient({ id }: { id: string }) {
               <h2 className="text-2xl font-black">Explora más productos</h2>
               <Link 
                 href="/#productos"
-                className="text-violet-400 hover:text-violet-300 text-sm font-semibold flex items-center gap-1.5 transition-colors"
+                className="text-gold hover:text-gold-soft text-sm font-semibold flex items-center gap-1.5 transition-colors"
               >
                 Ver todos
                 <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
@@ -357,7 +357,7 @@ export default function ProductClient({ id }: { id: string }) {
                 const morePrice = p.onSale && p.salePrice !== undefined ? p.salePrice : p.price
                 return (
                   <Link key={p.id} href={`/products/${p.id}`} scroll={true}>
-                    <div className="group bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-fuchsia-500/50 transition-all hover:scale-105">
+                    <div className="group bg-surface rounded-xl overflow-hidden border border-line hover:border-gold/40 transition-all hover:scale-105">
                       <div className="relative aspect-square">
                         <Image
                           src={Array.isArray(p.image) ? p.image[0] : p.image}
@@ -367,24 +367,24 @@ export default function ProductClient({ id }: { id: string }) {
                           className="object-cover group-hover:scale-110 transition-transform"
                         />
                         {p.onSale && p.salePrice !== undefined && (
-                          <span className="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-lg shadow">
+                          <span className="absolute top-2 left-2 bg-red-600 text-bone text-[10px] font-bold px-2 py-0.5 rounded-lg shadow">
                             Oferta
                           </span>
                         )}
                         {p.category && (
-                          <span className="absolute top-2 right-2 px-2.5 py-0.5 bg-slate-900/90 backdrop-blur-sm text-slate-200 text-[10px] font-semibold rounded-full border border-slate-700/50">
+                          <span className="absolute top-2 right-2 px-2.5 py-0.5 bg-ink/90 backdrop-blur-sm text-bone text-[10px] font-semibold rounded-full border border-line">
                             {p.category}
                           </span>
                         )}
                       </div>
                       <div className="p-3">
-                        <h3 className="font-bold text-white text-sm mb-1.5 line-clamp-1">{p.name}</h3>
+                        <h3 className="font-bold text-bone text-sm mb-1.5 line-clamp-1">{p.name}</h3>
                         <div className="flex items-center gap-2">
-                          <p className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-pink-500">
+                          <p className="text-xl font-black text-gold">
                             ${morePrice.toLocaleString()}
                           </p>
                           {p.onSale && p.salePrice !== undefined && (
-                            <p className="text-xs text-slate-500 line-through">
+                            <p className="text-xs text-ash/70 line-through">
                               ${p.price.toLocaleString()}
                             </p>
                           )}
@@ -406,10 +406,10 @@ export default function ProductClient({ id }: { id: string }) {
         className="fixed inset-0 flex items-center justify-center z-50 p-4"
         overlayClassName="fixed inset-0 bg-black/80 z-40"
       >
-        <div className="relative bg-slate-950 rounded-xl overflow-hidden max-w-4xl w-full">
+        <div className="relative bg-ink rounded-xl overflow-hidden max-w-4xl w-full">
           <button
             onClick={() => setModalOpen(false)}
-            className="absolute top-3 right-3 z-10 p-2 bg-slate-900 hover:bg-slate-800 text-white rounded-full transition-colors"
+            className="absolute top-3 right-3 z-10 p-2 bg-surface hover:bg-elevated text-bone rounded-full transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -420,7 +420,7 @@ export default function ProductClient({ id }: { id: string }) {
                 alt="Vista ampliada"
                 fill
                 unoptimized
-                className="object-contain bg-slate-900"
+                className="object-contain bg-surface"
               />
             </div>
           )}
