@@ -35,47 +35,44 @@
 
     return (
       <div>
-        <div className="bg-slate-900 p-4 lg:p-5 rounded-xl border border-slate-800">
-          <h2 className="font-bold mb-4 text-lg flex items-center gap-2">
+        <div className="admin-card p-4 lg:p-6">
+          <h2 className="mb-5 flex items-center gap-2 font-display text-2xl text-bone">
             {editId ? (
-              <Edit className="w-4 h-4 text-violet-400" />
+              <Edit className="w-4 h-4 text-gold" />
             ) : (
-              <Plus className="w-4 h-4 text-violet-400" />
+              <Plus className="w-4 h-4 text-gold" />
             )}
-            {editId ? "Editar Producto" : "Nuevo Producto"}
+            {editId ? "Editar producto" : "Nuevo producto"}
           </h2>
 
-          {/* Nombre */}
           <input
             type="text"
             placeholder="Nombre del producto"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="w-full p-3 mb-3 bg-slate-800 border border-slate-700 rounded-lg"
+            className="admin-field mb-3"
           />
 
-          {/* Precio / Stock */}
-          <div className="grid grid-cols-2 gap-3 mb-3">
+          <div className="mb-3 grid grid-cols-2 gap-3">
             <input
               type="number"
               placeholder="Precio"
               value={form.price}
               onChange={(e) => setForm({ ...form, price: e.target.value })}
-              className="p-3 bg-slate-800 border border-slate-700 rounded-lg"
+              className="admin-field"
             />
             <input
               type="number"
               placeholder="Stock"
               value={form.stock}
               onChange={(e) => setForm({ ...form, stock: e.target.value })}
-              className="p-3 bg-slate-800 border border-slate-700 rounded-lg"
+              className="admin-field"
             />
           </div>
 
-          {/* Socio / Proveedor SOLO ADMIN */}
           {isAdmin && (
             <div className="mb-3">
-              <label className="block text-xs text-slate-400 mb-1">
+              <label className="mb-1 block text-xs text-ash">
                 Socio / Proveedor
               </label>
               <input
@@ -83,15 +80,14 @@
                 placeholder="Ej: Montalchino"
                 value={form.partner || ""}
                 onChange={(e) => setForm({ ...form, partner: e.target.value })}
-                className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg"
+                className="admin-field"
               />
             </div>
           )}
 
-          {/* Marca (visible para todos) */}
-          <div className="grid grid-cols-1 gap-3 mb-3">
+          <div className="mb-3 grid grid-cols-1 gap-3">
             <div>
-              <label className="block text-xs text-slate-400 mb-1">
+              <label className="mb-1 block text-xs text-ash">
                 Marca del producto
               </label>
               <input
@@ -99,15 +95,14 @@
                 placeholder="Ej: Nike, Adidas..."
                 value={form.brand || ""}
                 onChange={(e) => setForm({ ...form, brand: e.target.value })}
-                className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg"
+                className="admin-field"
               />
             </div>
           </div>
 
-          {/* Comisión (solo ADMIN, SOCIO no la ve) */}
           {isAdmin && (
             <div className="mb-3">
-              <label className="block text-xs text-slate-400 mb-1">
+              <label className="mb-1 block text-xs text-ash">
                 Comisión que ganas (%)
               </label>
               <input
@@ -117,17 +112,16 @@
                 onChange={(e) =>
                   setForm({ ...form, commission: e.target.value })
                 }
-                className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg"
+                className="admin-field"
               />
-              <p className="text-[11px] text-slate-500 mt-1">
+              <p className="mt-1 text-[11px] text-ash">
                 Este porcentaje se usará para calcular tu ganancia por venta de este producto.
               </p>
             </div>
           )}
 
-          {/* Sistema de Descuentos */}
-          <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-3 mb-3">
-            <label className="flex items-center gap-2 mb-3 cursor-pointer">
+          <div className="mb-3 rounded-2xl border border-line bg-elevated/60 p-3">
+            <label className="mb-3 flex cursor-pointer items-center gap-2">
               <input
                 type="checkbox"
                 checked={form.onSale || false}
@@ -138,11 +132,11 @@
                     salePrice: e.target.checked ? form.salePrice : undefined,
                   })
                 }
-                className="w-4 h-4 accent-violet-600 cursor-pointer"
+                className="h-4 w-4 cursor-pointer accent-gold"
               />
-              <Tag className="w-4 h-4 text-violet-400" />
-              <span className="text-sm font-medium text-slate-300">
-                Producto en Descuento
+              <Tag className="h-4 w-4 text-gold" />
+              <span className="text-sm font-medium text-bone">
+                Producto en descuento
               </span>
             </label>
 
@@ -155,17 +149,17 @@
                   onChange={(e) =>
                     setForm({ ...form, salePrice: e.target.value })
                   }
-                  className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg"
+                  className="admin-field"
                 />
                 {form.price &&
                   form.salePrice &&
                   Number(form.salePrice) < Number(form.price) && (
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-400">
+                      <span className="text-ash">
                         Precio original:{" "}
                         <span className="line-through">${form.price}</span>
                       </span>
-                      <span className="bg-blue-500/20 text-red-300 px-2 py-1 rounded font-bold">
+                      <span className="rounded-full bg-gold/15 px-2 py-1 text-xs font-medium text-gold">
                         -{calculateDiscount()}%
                       </span>
                     </div>
@@ -174,9 +168,7 @@
             )}
           </div>
 
-          {/* Categoría y Subcategoría */}
-          <div className="grid grid-cols-2 gap-3 mb-3">
-            {/* Categoría con opción de elegir o escribir una nueva */}
+          <div className="mb-3 grid grid-cols-2 gap-3">
             <div>
               <input
                 type="text"
@@ -184,7 +176,7 @@
                 placeholder="Categoría"
                 value={form.category || ""}
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
-                className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg"
+                className="admin-field"
               />
               <datalist id="categories-list">
                 {categories.map((cat) => (
@@ -198,34 +190,31 @@
               onChange={(e) =>
                 setForm({ ...form, subcategory: e.target.value })
               }
-              className="p-3 bg-slate-800 border border-slate-700 rounded-lg"
+              className="admin-select w-full"
             >
               <option value="">Subcategoría</option>
               <option value="hombre">Hombre</option>
               <option value="mujer">Mujer</option>
             </select>
-          </div>  
+          </div>
 
-          {/* Botón gestionar categorías SOLO admin, socios no crean categorías */}
           {isAdmin && (
             <button
               onClick={() => setShowCategoryModal(true)}
-              className="w-full bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 py-2 px-4 rounded-lg mb-3 text-sm font-medium"
+              className="btn-ghost mb-3 w-full py-2.5 text-sm"
             >
-              <Layers className="inline-block mr-2 w-4 h-4" /> Gestionar Categorías
+              <Layers className="mr-2 inline-block h-4 w-4" /> Gestionar categorías
             </button>
           )}
 
-          {/* Descripción */}
           <textarea
             placeholder="Descripción"
             value={form.description}
             onChange={(e) => setForm({ ...form, description: e.target.value })}
-            className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg mb-3 h-24 resize-none"
+            className="admin-field mb-3 h-24 resize-none rounded-2xl"
           />
 
-          {/* Imágenes */}
-          <div className="relative border-2 border-dashed border-slate-700 rounded-lg p-4 text-center mb-3">
+          <div className="relative mb-3 rounded-2xl border border-dashed border-line p-4 text-center">
             <input
               type="file"
               multiple
@@ -233,38 +222,36 @@
               onChange={(e) =>
                 handleAddImageFile(e, setSubmitting, setForm, showMessageHandler)
               }
-              className="absolute inset-0 opacity-0 cursor-pointer"
+              className="absolute inset-0 cursor-pointer opacity-0"
             />
-            <ImageIcon className="w-6 h-6 text-slate-500 mx-auto mb-1" />
-            <p className="text-slate-400 text-sm">
+            <ImageIcon className="mx-auto mb-1 h-6 w-6 text-ash" />
+            <p className="text-sm text-ash">
               {submitting ? "Subiendo..." : "Arrastra o haz clic"}
             </p>
           </div>
 
-          {/* Preview imágenes */}
           {form.images.length > 0 && (
-            <div className="grid grid-cols-3 gap-2 mb-3">
+            <div className="mb-3 grid grid-cols-3 gap-2">
               {form.images.map((img, idx) => (
                 <div key={idx} className="relative aspect-square">
                   <Image
                     src={img}
                     alt=""
                     fill
-                    className="object-cover rounded-lg"
+                    className="rounded-xl object-cover"
                     unoptimized
                   />
                   <button
                     onClick={() => handleRemoveImage(idx, setForm)}
-                    className="absolute top-1 right-1 bg-black/50 p-1 rounded-full"
+                    className="absolute top-1 right-1 rounded-full bg-ink/70 p-1"
                   >
-                    <Trash2 className="w-3 h-3 text-red-400" />
+                    <Trash2 className="h-3 w-3 text-red-300" />
                   </button>
                 </div>
               ))}
             </div>
           )}
 
-          {/* Botones */}
           <div className="flex gap-2">
             <button
               onClick={() =>
@@ -276,7 +263,7 @@
                   setSubmitting
                 )
               }
-              className="flex-1 bg-violet-600 hover:bg-violet-700 py-3 rounded-lg font-bold"
+              className="btn-gold flex-1"
             >
               {editId ? "Actualizar" : "Agregar"}
             </button>
@@ -284,7 +271,7 @@
             {editId && (
               <button
                 onClick={resetForm}
-                className="bg-slate-700 hover:bg-slate-600 py-3 px-4 rounded-lg"
+                className="btn-ghost px-5"
               >
                 Cancelar
               </button>

@@ -229,108 +229,96 @@ export default function ProfessionalSalesDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-slate-300">
-        Cargando dashboard…
+      <div className="flex items-center justify-center py-16 text-ash">
+        Cargando ventas…
       </div>
     )
   }
 
-  /* =======================
-     UI
-  ======================= */
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 to-slate-900 text-white p-6">
-      <div className="max-w-7xl mx-auto">
-
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-4xl font-black bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent">
-              Dashboard de Ventas
-            </h1>
-            <p className="text-slate-400 mt-1">
-              {user?.displayName || "Vendedor"} • {stats.totalSales} ventas
-            </p>
-          </div>
-
-          <div className="flex gap-3">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <input
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar..."
-                className="pl-9 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm"
-              />
-            </div>
-
-            <div className="relative">
-              <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value as "all" | "credited" | "pending")}
-                className="pl-9 pr-8 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm"
-              >
-                <option value="all">Todos</option>
-                <option value="credited">Acreditado</option>
-                <option value="pending">Pendiente</option>
-              </select>
-            </div>
-          </div>
+    <div className="text-bone">
+      <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row">
+        <div>
+          <h2 className="font-display text-4xl text-bone">Ventas</h2>
+          <p className="mt-1 text-ash">
+            {user?.displayName || "Vendedor"} · {stats.totalSales} ventas
+          </p>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto bg-slate-900/80 border border-slate-700 rounded-2xl">
-          <table className="w-full min-w-max">
-            <thead>
-              <tr className="border-b border-slate-700 text-sm text-slate-400">
-                <th className="px-6 py-4">ID</th>
-                <th className="px-6 py-4">Producto</th>
-                <th className="px-6 py-4">Comprador</th>
-                <th className="px-6 py-4">Vendedor</th>
-                <th onClick={() => handleSort("date")} className="px-6 py-4 cursor-pointer">
-                  Fecha
-                </th>
-                <th onClick={() => handleSort("amount")} className="px-6 py-4 cursor-pointer">
-                  Monto
-                </th>
-                <th onClick={() => handleSort("commission")} className="px-6 py-4 cursor-pointer">
-                  Comisión
-                </th>
-                <th className="px-6 py-4 text-center">Estado</th>
+        <div className="flex flex-wrap gap-3">
+          <div className="relative">
+            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-ash" />
+            <input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Buscar..."
+              className="admin-field py-2.5 pl-9"
+            />
+          </div>
+
+          <div className="relative">
+            <Filter className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-ash" />
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as "all" | "credited" | "pending")}
+              className="admin-select py-2.5 pl-9 pr-8"
+            >
+              <option value="all">Todos</option>
+              <option value="credited">Acreditado</option>
+              <option value="pending">Pendiente</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div className="admin-card overflow-x-auto">
+        <table className="w-full min-w-max">
+          <thead>
+            <tr className="border-b border-line text-left text-[11px] font-medium uppercase tracking-[0.16em] text-ash">
+              <th className="px-6 py-4">ID</th>
+              <th className="px-6 py-4">Producto</th>
+              <th className="px-6 py-4">Comprador</th>
+              <th className="px-6 py-4">Vendedor</th>
+              <th onClick={() => handleSort("date")} className="cursor-pointer px-6 py-4">
+                Fecha
+              </th>
+              <th onClick={() => handleSort("amount")} className="cursor-pointer px-6 py-4">
+                Monto
+              </th>
+              <th onClick={() => handleSort("commission")} className="cursor-pointer px-6 py-4">
+                Comisión
+              </th>
+              <th className="px-6 py-4 text-center">Estado</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filteredSales.map((sale) => (
+              <tr key={sale.id} className="border-b border-line hover:bg-elevated/50">
+                <td className="px-6 py-4 text-ash">{sale.id.slice(0, 8)}…</td>
+                <td className="px-6 py-4">{sale.productName}</td>
+                <td className="px-6 py-4">{sale.buyer}</td>
+                <td className="px-6 py-4 font-medium text-gold">{sale.sellerName}</td>
+                <td className="px-6 py-4 text-ash">{sale.date}</td>
+                <td className="px-6 py-4 font-medium">${sale.amount.toLocaleString()}</td>
+                <td className="px-6 py-4 font-medium text-gold-soft">
+                  +${sale.commission.toLocaleString()}
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${
+                      sale.status === "credited"
+                        ? "border border-gold/30 bg-gold/10 text-gold"
+                        : "border border-line bg-elevated text-ash"
+                    }`}
+                  >
+                    {sale.status === "credited" ? "Acreditado" : "Pendiente"}
+                  </span>
+                </td>
               </tr>
-            </thead>
-
-            <tbody>
-              {filteredSales.map((sale) => (
-                <tr key={sale.id} className="border-b border-slate-800 hover:bg-slate-800/40">
-                  <td className="px-6 py-4 text-slate-300">{sale.id.slice(0, 8)}…</td>
-                  <td className="px-6 py-4">{sale.productName}</td>
-                  <td className="px-6 py-4">{sale.buyer}</td>
-                  <td className="px-6 py-4 text-violet-400 font-semibold">{sale.sellerName}</td>
-                  <td className="px-6 py-4 text-slate-400">{sale.date}</td>
-                  <td className="px-6 py-4 font-semibold">${sale.amount.toLocaleString()}</td>
-                  <td className="px-6 py-4 font-bold text-emerald-400">
-                    +${sale.commission.toLocaleString()}
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        sale.status === "credited"
-                          ? "bg-green-900/40 text-green-400"
-                          : "bg-yellow-900/40 text-yellow-400"
-                      }`}
-                    >
-                      {sale.status === "credited" ? "Acreditado" : "Pendiente"}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   )

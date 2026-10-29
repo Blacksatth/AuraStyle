@@ -370,4 +370,16 @@
   .field {
     @apply w-full rounded-full border border-line bg-surface px-5 py-3 text-sm text-bone placeholder:text-ash/70 transition-colors focus:border-gold/70 focus:outline-none;
   }
+
+  .admin-card {
+    @apply rounded-2xl border border-line bg-surface;
+  }
+
+  .admin-field {
+    @apply w-full rounded-xl border border-line bg-elevated px-4 py-3 text-sm text-bone placeholder:text-ash/70 transition-colors focus:border-gold/70 focus:outline-none;
+  }
+
+  .admin-select {
+    @apply rounded-xl border border-line bg-elevated px-4 py-3 text-sm text-bone transition-colors focus:border-gold/70 focus:outline-none;
+  }
 }

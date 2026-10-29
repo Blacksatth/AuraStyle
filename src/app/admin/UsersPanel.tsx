@@ -27,9 +27,6 @@ export default function UsersPanel({ onMessage }: UsersPanelProps) {
   const [filterRole, setFilterRole] = useState("all")
   const [submitting, setSubmitting] = useState(false)
 
-  // ────────────────────────────────────────────────
-  // Cargar usuarios en tiempo real
-  // ────────────────────────────────────────────────
   useEffect(() => {
     const unsubscribe = onSnapshot(
       collection(db, "users"),
@@ -46,9 +43,6 @@ export default function UsersPanel({ onMessage }: UsersPanelProps) {
     return () => unsubscribe()
   }, [onMessage])
 
-  // ────────────────────────────────────────────────
-  // Actualizar rol (SOLO AQUÍ ESTABA EL ERROR)
-  // ────────────────────────────────────────────────
   const handleUpdateUserRole = async (
     userId: string,
     newRole: "admin" | "seller" | "user" | "partner"
@@ -66,9 +60,6 @@ export default function UsersPanel({ onMessage }: UsersPanelProps) {
     }
   }
 
-  // ────────────────────────────────────────────────
-  // Filtrado por búsqueda y rol
-  // ────────────────────────────────────────────────
   const filteredUsers = users.filter((u) => {
     const s = searchUser.toLowerCase()
     const matchesSearch =
@@ -81,9 +72,6 @@ export default function UsersPanel({ onMessage }: UsersPanelProps) {
     return matchesSearch && matchesRole
   })
 
-  // ────────────────────────────────────────────────
-  // Mapeo visual de los roles (etiquetas)
-  // ────────────────────────────────────────────────
   const roleDisplay = {
     admin: "Administrador",
     seller: "Vendedor",
@@ -92,45 +80,40 @@ export default function UsersPanel({ onMessage }: UsersPanelProps) {
   } as const
 
   const roleStyles: Record<string, string> = {
-    admin: "bg-violet-500/20 text-violet-400 border border-violet-500/30",
-    seller: "bg-blue-500/20 text-blue-400 border border-blue-500/30",
-    user: "bg-green-500/20 text-green-400 border border-green-500/30",
-    partner: "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30",
+    admin: "border border-gold/40 bg-gold/15 text-gold",
+    seller: "border border-line bg-elevated text-bone",
+    user: "border border-line bg-ink text-ash",
+    partner: "border border-gold/20 bg-gold/10 text-gold-soft",
   }
 
-  // ────────────────────────────────────────────────
-  // UI COMPLETA
-  // ────────────────────────────────────────────────
   return (
-    <div className="bg-slate-900 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-800">
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-violet-500/10 rounded-xl flex items-center justify-center">
-          <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-violet-400" />
+    <div className="admin-card p-4 sm:p-6">
+      <div className="mb-6 flex items-center gap-3">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/40 bg-gold/10">
+          <Shield className="h-5 w-5 text-gold" />
         </div>
         <div>
-          <h2 className="text-xl sm:text-2xl font-black text-white">Gestión de Usuarios</h2>
-          <p className="text-xs sm:text-sm text-slate-400">Asigna roles y administra permisos</p>
+          <h2 className="font-display text-2xl text-bone sm:text-3xl">Usuarios</h2>
+          <p className="text-sm text-ash">Asigna roles y administra permisos</p>
         </div>
       </div>
 
-      {/* Filtros */}
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-500" />
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row">
+        <div className="relative flex-1">
+          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-ash" />
           <input
             type="text"
             placeholder="Buscar por nombre, email o código..."
             value={searchUser}
             onChange={(e) => setSearchUser(e.target.value)}
-            className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg bg-slate-800 border border-slate-700 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+            className="admin-field pl-10"
           />
         </div>
 
         <select
           value={filterRole}
           onChange={(e) => setFilterRole(e.target.value)}
-          className="px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg bg-slate-800 border border-slate-700 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+          className="admin-select"
         >
           <option value="all">Todos los roles</option>
           <option value="admin">Administradores</option>
@@ -140,50 +123,48 @@ export default function UsersPanel({ onMessage }: UsersPanelProps) {
         </select>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-        <div className="bg-slate-800/50 rounded-lg p-3 sm:p-4 border border-slate-700">
-          <p className="text-xs sm:text-sm text-slate-400 mb-1">Total</p>
-          <p className="text-xl sm:text-2xl font-black text-white">{users.length}</p>
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="rounded-2xl border border-line bg-elevated p-4">
+          <p className="mb-1 text-xs text-ash">Total</p>
+          <p className="font-display text-3xl text-bone">{users.length}</p>
         </div>
 
-        <div className="bg-violet-500/10 rounded-lg p-3 sm:p-4 border border-violet-500/30">
-          <p className="text-xs sm:text-sm text-violet-400 mb-1">Admins</p>
-          <p className="text-xl sm:text-2xl font-black text-violet-400">
+        <div className="rounded-2xl border border-gold/30 bg-gold/10 p-4">
+          <p className="mb-1 text-xs text-gold">Admins</p>
+          <p className="font-display text-3xl text-gold">
             {users.filter((u) => u.role === "admin").length}
           </p>
         </div>
 
-        <div className="bg-blue-500/10 rounded-lg p-3 sm:p-4 border border-blue-500/30">
-          <p className="text-xs sm:text-sm text-blue-400 mb-1">Vendedores</p>
-          <p className="text-xl sm:text-2xl font-black text-blue-400">
+        <div className="rounded-2xl border border-line bg-elevated p-4">
+          <p className="mb-1 text-xs text-ash">Vendedores</p>
+          <p className="font-display text-3xl text-bone">
             {users.filter((u) => u.role === "seller").length}
           </p>
         </div>
 
-        <div className="bg-yellow-500/10 rounded-lg p-3 sm:p-4 border border-yellow-500/30">
-          <p className="text-xs sm:text-sm text-yellow-400 mb-1">Socios</p>
-          <p className="text-xl sm:text-2xl font-black text-yellow-400">
+        <div className="rounded-2xl border border-gold/20 bg-gold/5 p-4">
+          <p className="mb-1 text-xs text-gold-soft">Socios</p>
+          <p className="font-display text-3xl text-gold-soft">
             {users.filter((u) => u.role === "partner").length}
           </p>
         </div>
       </div>
 
-      {/* MOBILE */}
-      <div className="block sm:hidden space-y-3">
+      <div className="block space-y-3 sm:hidden">
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user) => (
-            <div key={user.id} className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-              <div className="flex items-start justify-between mb-2">
+            <div key={user.id} className="rounded-2xl border border-line bg-elevated p-3">
+              <div className="mb-2 flex items-start justify-between">
                 <div>
-                  <p className="font-semibold text-sm text-white">{user.name || "Sin nombre"}</p>
-                  <p className="text-xs text-slate-400">{user.email}</p>
+                  <p className="text-sm font-medium text-bone">{user.name || "Sin nombre"}</p>
+                  <p className="text-xs text-ash">{user.email}</p>
                   {user.referralCode && (
-                    <p className="text-xs text-violet-400 mt-1">Código: {user.referralCode}</p>
+                    <p className="mt-1 text-xs text-gold">Código: {user.referralCode}</p>
                   )}
                 </div>
 
-                <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${roleStyles[user.role]}`}>
+                <span className={`rounded-full px-2 py-0.5 text-xs ${roleStyles[user.role]}`}>
                   {roleDisplay[user.role]}
                 </span>
               </div>
@@ -197,7 +178,7 @@ export default function UsersPanel({ onMessage }: UsersPanelProps) {
                   )
                 }
                 disabled={submitting}
-                className="w-full p-2 text-sm rounded-lg bg-slate-900 border border-slate-700 text-white"
+                className="admin-select w-full py-2"
               >
                 <option value="user">Usuario</option>
                 <option value="seller">Vendedor</option>
@@ -207,49 +188,48 @@ export default function UsersPanel({ onMessage }: UsersPanelProps) {
             </div>
           ))
         ) : (
-          <div className="py-12 text-center text-slate-400 text-sm">No hay usuarios que mostrar</div>
+          <div className="py-12 text-center text-sm text-ash">No hay usuarios que mostrar</div>
         )}
       </div>
 
-      {/* DESKTOP */}
-      <div className="hidden sm:block overflow-x-auto">
+      <div className="hidden overflow-x-auto sm:block">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-slate-800 text-slate-400">
-              <th className="py-3 px-4 text-left text-sm">Usuario</th>
-              <th className="py-3 px-4 text-left text-sm">Código</th>
-              <th className="py-3 px-4 text-left text-sm">Estadísticas</th>
-              <th className="py-3 px-4 text-left text-sm">Rol Actual</th>
-              <th className="py-3 px-4 text-left text-sm">Cambiar Rol</th>
+            <tr className="border-b border-line text-left text-[11px] font-medium uppercase tracking-[0.16em] text-ash">
+              <th className="px-4 py-3">Usuario</th>
+              <th className="px-4 py-3">Código</th>
+              <th className="px-4 py-3">Estadísticas</th>
+              <th className="px-4 py-3">Rol actual</th>
+              <th className="px-4 py-3">Cambiar rol</th>
             </tr>
           </thead>
           <tbody>
             {filteredUsers.map((user) => (
-              <tr key={user.id} className="border-b border-slate-800 hover:bg-slate-800/50 transition">
-                <td className="py-4 px-4">
-                  <p className="font-medium text-sm text-white">{user.name || "Sin nombre"}</p>
-                  <p className="text-xs text-slate-400">{user.email}</p>
+              <tr key={user.id} className="border-b border-line transition hover:bg-elevated/50">
+                <td className="px-4 py-4">
+                  <p className="text-sm font-medium text-bone">{user.name || "Sin nombre"}</p>
+                  <p className="text-xs text-ash">{user.email}</p>
                 </td>
 
-                <td className="py-4 px-4">
+                <td className="px-4 py-4">
                   {user.referralCode ? (
-                    <span className="px-2 py-1 bg-violet-500/10 border border-violet-500/30 rounded text-xs text-violet-400">
+                    <span className="rounded-full border border-gold/30 bg-gold/10 px-2 py-1 text-xs text-gold">
                       {user.referralCode}
                     </span>
                   ) : (
-                    <span className="text-xs text-slate-500">N/A</span>
+                    <span className="text-xs text-ash">N/A</span>
                   )}
                 </td>
 
-                <td className="py-4 px-4 text-xs text-slate-500">
+                <td className="px-4 py-4 text-xs text-ash">
                   {user.role === "seller" ? (
                     <div>
-                      <p className="text-slate-400">
-                        Ventas: <span className="text-white">{user.salesCount || 0}</span>
+                      <p>
+                        Ventas: <span className="text-bone">{user.salesCount || 0}</span>
                       </p>
-                      <p className="text-slate-400">
+                      <p>
                         Ganado:{" "}
-                        <span className="text-green-400">
+                        <span className="text-gold">
                           {user.totalEarnings?.toLocaleString() || 0} pts
                         </span>
                       </p>
@@ -259,13 +239,13 @@ export default function UsersPanel({ onMessage }: UsersPanelProps) {
                   )}
                 </td>
 
-                <td className="py-4 px-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${roleStyles[user.role]}`}>
+                <td className="px-4 py-4">
+                  <span className={`rounded-full px-3 py-1 text-xs ${roleStyles[user.role]}`}>
                     {roleDisplay[user.role]}
                   </span>
                 </td>
 
-                <td className="py-4 px-4">
+                <td className="px-4 py-4">
                   <select
                     value={user.role}
                     onChange={(e) =>
@@ -275,7 +255,7 @@ export default function UsersPanel({ onMessage }: UsersPanelProps) {
                       )
                     }
                     disabled={submitting}
-                    className="p-2 text-sm rounded-lg bg-slate-800 border border-slate-700 text-white"
+                    className="admin-select py-2 text-sm"
                   >
                     <option value="user">Usuario</option>
                     <option value="seller">Vendedor</option>

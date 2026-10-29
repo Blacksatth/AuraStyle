@@ -5,6 +5,7 @@ import {
   DollarSign,
   Users as UsersIcon,
   User as UserIcon,
+  X,
 } from 'lucide-react';
 
 export default function Headeradmin({
@@ -15,156 +16,94 @@ export default function Headeradmin({
   setActiveTab,
 }) {
   const isAdmin = userRole === "admin";
-  const isPartner = userRole === "socio";
+  const isPartner = userRole === "socio" || userRole === "partner";
 
   const title =
     userRole === "admin"
-      ? "Panel Admin"
+      ? "Panel de administración"
       : isPartner
-      ? "Panel Socio"
-      : "Panel Vendedor";
+      ? "Panel de socio"
+      : "Panel de vendedor";
+
+  const subtitle =
+    userRole === "admin"
+      ? "Catálogo, pedidos y cuentas"
+      : isPartner
+      ? "Tu marca y tus piezas"
+      : "Inventario y ventas";
+
+  const tabs = [
+    { id: "products", label: "Productos", icon: Package, show: true },
+    { id: "sales", label: "Ventas", icon: DollarSign, show: true },
+    { id: "partnerProfile", label: "Mi marca", icon: UserIcon, show: isPartner || isAdmin },
+    { id: "users", label: "Usuarios", icon: UsersIcon, show: isAdmin },
+  ];
+
+  const tabClass = (id, mobile = false) => {
+    const active = activeTab === id;
+    if (mobile) {
+      return `flex items-center gap-3 rounded-full border px-5 py-3 text-sm transition-colors ${
+        active
+          ? "border-gold/50 bg-gold/10 text-gold"
+          : "border-line text-ash hover:border-gold/40 hover:text-bone"
+      }`;
+    }
+    return `flex items-center gap-2 border-b-2 py-4 text-[13px] font-medium uppercase tracking-[0.14em] transition-colors ${
+      active
+        ? "border-gold text-gold"
+        : "border-transparent text-ash hover:text-bone"
+    }`;
+  };
 
   return (
-    <div>
-      <div className="bg-slate-900 border-b border-slate-800 sticky top-0 z-40">
-        <div className="px-4 py-3 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-violet-400">
+    <div className="sticky top-[73px] z-40 border-b border-line bg-ink/90 backdrop-blur-xl sm:top-[81px]">
+      <div className="container-edge flex items-center justify-between py-5">
+        <div>
+          <p className="eyebrow mb-1">AuraStyle</p>
+          <h1 className="font-display text-3xl leading-none text-bone sm:text-4xl">
             {title}
           </h1>
-
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg bg-slate-800 lg:hidden"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
+          <p className="mt-2 text-sm text-ash">{subtitle}</p>
         </div>
 
-        {/* MOBILE MENU */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden bg-slate-900 border-t border-slate-800 px-4 py-3">
-            <div className="flex flex-col space-y-2">
-              {/* Productos */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Cerrar menú del panel" : "Abrir menú del panel"}
+          className="grid h-10 w-10 place-items-center rounded-full border border-line text-bone transition-colors hover:border-gold/50 hover:text-gold lg:hidden"
+        >
+          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </div>
+
+      {mobileMenuOpen && (
+        <div className="border-t border-line px-4 py-4 lg:hidden">
+          <div className="flex flex-col gap-2">
+            {tabs.filter((tab) => tab.show).map(({ id, label, icon: Icon }) => (
               <button
+                key={id}
                 onClick={() => {
-                  setActiveTab("products");
+                  setActiveTab(id);
                   setMobileMenuOpen(false);
                 }}
-                className={`flex items-center gap-2 p-2 rounded-lg ${
-                  activeTab === "products"
-                    ? "bg-slate-800 text-violet-400"
-                    : "text-slate-400"
-                }`}
+                className={tabClass(id, true)}
               >
-                <Package className="w-4 h-4" /> Productos
+                <Icon className="w-4 h-4" /> {label}
               </button>
-
-              {/* Ventas */}
-              <button
-                onClick={() => {
-                  setActiveTab("sales");
-                  setMobileMenuOpen(false);
-                }}
-                className={`flex items-center gap-2 p-2 rounded-lg ${
-                  activeTab === "sales"
-                    ? "bg-slate-800 text-violet-400"
-                    : "text-slate-400"
-                }`}
-              >
-                <DollarSign className="w-4 h-4" /> Ventas
-              </button>
-
-              {/* PERFIL SOCIO / MI MARCA */}
-              {isPartner && (
-                <button
-                  onClick={() => {
-                    setActiveTab("partnerProfile");
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`flex items-center gap-2 p-2 rounded-lg ${
-                    activeTab === "partnerProfile"
-                      ? "bg-slate-800 text-violet-400"
-                      : "text-slate-400"
-                  }`}
-                >
-                  <UserIcon className="w-4 h-4" /> Mi marca
-                </button>
-              )}
-
-              {/* Usuarios solo admin */}
-              {isAdmin && (
-                <button
-                  onClick={() => {
-                    setActiveTab("users");
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`flex items-center gap-2 p-2 rounded-lg ${
-                    activeTab === "users"
-                      ? "bg-slate-800 text-violet-400"
-                      : "text-slate-400"
-                  }`}
-                >
-                  <UsersIcon className="w-4 h-4" /> Usuarios
-                </button>
-              )}
-            </div>
+            ))}
           </div>
-        )}
-
-        {/* DESKTOP TABS */}
-        <div className="hidden lg:flex px-6 gap-6 border-t border-slate-800">
-          {/* Productos */}
-          <button
-            onClick={() => setActiveTab("products")}
-            className={`py-3 font-medium border-b-2 -mb-px ${
-              activeTab === "products"
-                ? "border-violet-500 text-violet-400"
-                : "border-transparent text-slate-400"
-            }`}
-          >
-            <Package className="inline-block mr-2 w-4 h-4" /> Productos
-          </button>
-
-          {/* Ventas */}
-          <button
-            onClick={() => setActiveTab("sales")}
-            className={`py-3 font-medium border-b-2 -mb-px ${
-              activeTab === "sales"
-                ? "border-violet-500 text-violet-400"
-                : "border-transparent text-slate-400"
-            }`}
-          >
-            <DollarSign className="inline-block mr-2 w-4 h-4" /> Ventas
-          </button>
-
-          {/* PERFIL SOCIO */}
-          {isPartner || isAdmin&& (
-            <button
-              onClick={() => setActiveTab("partnerProfile")}
-              className={`py-3 font-medium border-b-2 -mb-px ${
-                activeTab === "partnerProfile"
-                  ? "border-violet-500 text-violet-400"
-                  : "border-transparent text-slate-400"
-              }`}
-            >
-              <UserIcon className="inline-block mr-2 w-4 h-4" /> Mi marca
-            </button>
-          )}
-
-          {/* Usuarios admin */}
-          {isAdmin && (
-            <button
-              onClick={() => setActiveTab("users")}
-              className={`py-3 font-medium border-b-2 -mb-px ${
-                activeTab === "users"
-                  ? "border-violet-500 text-violet-400"
-                  : "border-transparent text-slate-400"
-              }`}
-            >
-              <UsersIcon className="inline-block mr-2 w-4 h-4" /> Usuarios
-            </button>
-          )}
         </div>
+      )}
+
+      <div className="container-edge hidden gap-8 lg:flex">
+        {tabs.filter((tab) => tab.show).map(({ id, label, icon: Icon }) => (
+          <button
+            key={id}
+            onClick={() => setActiveTab(id)}
+            className={tabClass(id)}
+          >
+            <Icon className="inline-block w-4 h-4" /> {label}
+          </button>
+        ))}
       </div>
     </div>
   );

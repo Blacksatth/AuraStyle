@@ -172,21 +172,21 @@ export default function AdminPanel() {
 
   if (authLoading)
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
-        <p className="text-slate-400">Cargando...</p>
+      <div className="flex min-h-screen items-center justify-center text-bone">
+        <p className="text-ash">Cargando...</p>
       </div>
     )
 
 if (!["admin", "seller", "partner"].includes(userRole))
 
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
-        <p className="text-red-400 text-xl">Acceso Denegado</p>
+      <div className="flex min-h-screen items-center justify-center text-bone">
+        <p className="font-display text-3xl text-red-300">Acceso denegado</p>
       </div>
     )
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen text-bone">
       {/* Header */}
       <AdminHeader
         userRole={userRole}
@@ -198,11 +198,11 @@ if (!["admin", "seller", "partner"].includes(userRole))
 
       {/* Messages */}
       {(error || success) && (
-        <div className="px-4 py-3">
+        <div className="container-edge py-4">
           <div
-            className={`p-3 rounded-lg border ${error
-              ? "bg-red-500/10 text-red-300 border-red-500/30"
-              : "bg-green-500/10 text-green-300 border-green-500/30"
+            className={`rounded-2xl border p-3 text-sm ${error
+              ? "border-red-400/30 bg-red-500/10 text-red-300"
+              : "border-gold/30 bg-gold/10 text-gold-soft"
               }`}
           >
             {error || success}
@@ -212,8 +212,8 @@ if (!["admin", "seller", "partner"].includes(userRole))
 
       {/* --- Productos --- */}
       {activeTab === "products" && (
-        <div className="p-4 lg:p-6">
-          <div className="grid lg:grid-cols-3 gap-6">
+        <div className="container-edge py-8">
+          <div className="grid gap-6 lg:grid-cols-3">
             {/* Formulario */}
             <AddProduct
   editId={editId}
@@ -234,35 +234,34 @@ if (!["admin", "seller", "partner"].includes(userRole))
 
 
             {/* Lista de productos */}
-            <div className="lg:col-span-2 bg-slate-900 p-4 lg:p-5 rounded-xl border border-slate-800">
-              {/* Filtros móviles */}
-              <div className="flex flex-col lg:flex-row gap-3 mb-4">
-                <div className="flex-1 relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4" />
+            <div className="admin-card p-4 lg:col-span-2 lg:p-6">
+              <div className="mb-4 flex flex-col gap-3 lg:flex-row">
+                <div className="relative flex-1">
+                  <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-ash" />
                   <input
                     placeholder="Buscar producto..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-9 p-3 bg-slate-800 border border-slate-700 rounded-lg"
+                    className="admin-field pl-9"
                   />
                 </div>
                 <div className="relative">
                   <button
                     onClick={() => setFilterMenuOpen(!filterMenuOpen)}
-                    className="flex items-center gap-2 p-3 bg-slate-800 border border-slate-700 rounded-lg w-full lg:w-auto"
+                    className="flex w-full items-center gap-2 rounded-xl border border-line bg-elevated p-3 text-sm text-bone lg:w-auto"
                   >
-                    <Filter className="w-4 h-4" />
+                    <Filter className="h-4 w-4 text-gold" />
                     <span>{filterCategory === "all" ? "Todas" : filterCategory}</span>
-                    <ChevronDown className="w-4 h-4 ml-auto" />
+                    <ChevronDown className="ml-auto h-4 w-4 text-ash" />
                   </button>
                   {filterMenuOpen && (
-                    <div className="absolute right-0 mt-1 w-48 bg-slate-800 border border-slate-700 rounded-lg z-10">
+                    <div className="absolute right-0 z-10 mt-1 w-48 overflow-hidden rounded-2xl border border-line bg-surface">
                       <button
                         onClick={() => {
                           setFilterCategory("all")
                           setFilterMenuOpen(false)
                         }}
-                        className="block w-full text-left p-3 hover:bg-slate-700"
+                        className="block w-full p-3 text-left text-sm text-ash hover:bg-elevated hover:text-bone"
                       >
                         Todas
                       </button>
@@ -273,7 +272,7 @@ if (!["admin", "seller", "partner"].includes(userRole))
                             setFilterCategory(cat)
                             setFilterMenuOpen(false)
                           }}
-                          className="block w-full text-left p-3 hover:bg-slate-700"
+                          className="block w-full p-3 text-left text-sm text-ash hover:bg-elevated hover:text-bone"
                         >
                           {cat}
                         </button>
@@ -287,8 +286,8 @@ if (!["admin", "seller", "partner"].includes(userRole))
               <div className="hidden lg:block overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-slate-400 border-b border-slate-800">
-                      <th className="py-2 text-left">Producto</th>
+                    <tr className="border-b border-line text-left text-[11px] font-medium uppercase tracking-[0.16em] text-ash">
+                      <th className="py-3">Producto</th>
                       <th>Categoría</th>
                       <th>Precio</th>
                       <th>Stock</th>
@@ -301,46 +300,46 @@ if (!["admin", "seller", "partner"].includes(userRole))
                         <tr
                           key={p.id}
                           onClick={() => router.push(`/products/${p.id}`)}
-                          className="border-b border-slate-800 hover:bg-slate-800/50 cursor-pointer"
+                          className="cursor-pointer border-b border-line hover:bg-elevated/50"
                         >
-                          <td className="py-2 flex items-center gap-3">
+                          <td className="flex items-center gap-3 py-3">
                             <div className="relative">
                               <Image
                                 src={p.image || "/placeholder.svg"}
                                 alt={p.name}
                                 width={50}
                                 height={50}
-                                className="rounded-lg object-cover"
+                                className="rounded-xl object-cover"
                                 unoptimized
                               />
                               {p.onSale && (
-                                <div className="absolute -top-1 -right-1 bg-red-500 rounded-full p-1">
-                                  <Tag className="w-3 h-3" />
+                                <div className="absolute -top-1 -right-1 rounded-full bg-gold p-1 text-ink">
+                                  <Tag className="h-3 w-3" />
                                 </div>
                               )}
                             </div>
                             <div>
                               <div className="flex items-center gap-2">
-                                <p className="font-medium">{p.name}</p>
+                                <p className="font-medium text-bone">{p.name}</p>
                                 {p.onSale && (
-                                  <span className="bg-red-500/20 text-red-400 text-xs px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
-                                    <Percent className="w-3 h-3" />
+                                  <span className="flex items-center gap-1 rounded-full bg-gold/15 px-2 py-0.5 text-xs text-gold">
+                                    <Percent className="h-3 w-3" />
                                     -{calculateDiscount(p.price, p.salePrice)}%
                                   </span>
                                 )}
                               </div>
-                              <p className="text-xs text-slate-500 capitalize">{p.subcategory || "-"}</p>
+                              <p className="text-xs capitalize text-ash">{p.subcategory || "-"}</p>
                             </div>
                           </td>
                           <td>
-                            <p className="text-slate-300">{p.category}</p>
+                            <p className="text-ash">{p.category}</p>
                           </td>
                           <td>
                             <div className="flex flex-col">
                               {p.onSale && p.salePrice ? (
                                 <>
-                                  <span className="text-red-400 font-bold">{formatPrice(p.salePrice)}</span>
-                                  <span className="text-slate-500 text-xs line-through">{formatPrice(p.price)}</span>
+                                  <span className="font-medium text-gold">{formatPrice(p.salePrice)}</span>
+                                  <span className="text-xs text-ash line-through">{formatPrice(p.price)}</span>
                                 </>
                               ) : (
                                 <span>{formatPrice(p.price)}</span>
@@ -354,25 +353,25 @@ if (!["admin", "seller", "partner"].includes(userRole))
                                 e.stopPropagation()
                                 handleEditProduct(p)
                               }}
-                              className="p-2 bg-blue-600 rounded-lg mr-2 hover:bg-blue-700"
+                              className="mr-2 grid h-9 w-9 place-items-center rounded-full border border-line text-ash transition-colors hover:border-gold/50 hover:text-gold"
                             >
-                              <Edit className="w-4 h-4" />
+                              <Edit className="h-4 w-4" />
                             </button>
                             <button
                               onClick={(e) => {
                                 e.stopPropagation()
                                 handleDeleteProduct(p.id, showMessageHandler)
                               }}
-                              className="p-2 bg-red-600 rounded-lg hover:bg-red-700"
+                              className="grid h-9 w-9 place-items-center rounded-full border border-line text-ash transition-colors hover:border-red-400/40 hover:text-red-300"
                             >
-                              <Trash2 className="w-4 h-4" />
+                              <Trash2 className="h-4 w-4" />
                             </button>
                           </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan={5} className="text-center py-8 text-slate-500">
+                        <td colSpan={5} className="py-8 text-center text-ash">
                           No hay productos que mostrar
                         </td>
                       </tr>
@@ -387,44 +386,43 @@ if (!["admin", "seller", "partner"].includes(userRole))
                   filteredProducts.map((p) => (
                     <div key={p.id}
                       onClick={() => router.push(`/products/${p.id}`)}
-                      className="bg-slate-800 rounded-lg p-3 relative">
+                      className="relative rounded-2xl border border-line bg-elevated p-3">
                       
-                      {/* Badge de oferta */}
                       {p.onSale && (
-                        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold flex items-center gap-1 z-10">
-                          <Tag className="w-3 h-3" />
+                        <div className="absolute top-2 right-2 z-10 flex items-center gap-1 rounded-full bg-gold px-2 py-1 text-xs font-medium text-ink">
+                          <Tag className="h-3 w-3" />
                           -{calculateDiscount(p.price, p.salePrice)}%
                         </div>
                       )}
 
-                      <div className="flex gap-3 mb-2">
+                      <div className="mb-2 flex gap-3">
                         <div className="relative">
                           <Image
                             src={p.image || "/placeholder.svg"}
                             alt={p.name}
                             width={60}
                             height={60}
-                            className="rounded-lg object-cover"
+                            className="rounded-xl object-cover"
                             unoptimized
                           />
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-medium">{p.name}</h3>
-                          <p className="text-xs text-slate-400 capitalize">{p.subcategory || "-"}</p>
-                          <p className="text-xs text-slate-400">{p.category}</p>
+                          <h3 className="font-display text-xl text-bone">{p.name}</h3>
+                          <p className="text-xs capitalize text-ash">{p.subcategory || "-"}</p>
+                          <p className="text-xs text-ash">{p.category}</p>
                         </div>
                       </div>
-                      <div className="flex justify-between items-center">
+                      <div className="flex items-center justify-between">
                         <div className="flex gap-3 text-sm">
                           {p.onSale && p.salePrice ? (
                             <div className="flex flex-col">
-                              <span className="text-red-400 font-bold">{formatPrice(p.salePrice)}</span>
-                              <span className="text-slate-500 text-xs line-through">{formatPrice(p.price)}</span>
+                              <span className="font-medium text-gold">{formatPrice(p.salePrice)}</span>
+                              <span className="text-xs text-ash line-through">{formatPrice(p.price)}</span>
                             </div>
                           ) : (
-                            <span className="text-violet-400">{formatPrice(p.price)}</span>
+                            <span className="text-gold">{formatPrice(p.price)}</span>
                           )}
-                          <span className="text-slate-400">Stock: {p.stock}</span>
+                          <span className="text-ash">Stock: {p.stock}</span>
                         </div>
                         <div className="flex gap-1">
                           <button
@@ -432,25 +430,25 @@ if (!["admin", "seller", "partner"].includes(userRole))
                               e.stopPropagation()
                               handleEditProduct(p)
                             }}
-                            className="p-2 bg-blue-600 rounded-lg hover:bg-blue-700"
+                            className="grid h-9 w-9 place-items-center rounded-full border border-line text-ash hover:border-gold/50 hover:text-gold"
                           >
-                            <Edit className="w-4 h-4" />
+                            <Edit className="h-4 w-4" />
                           </button>
                           <button
                             onClick={(e) => {
                               e.stopPropagation()
                               handleDeleteProduct(p.id, showMessageHandler)
                             }}
-                            className="p-2 bg-red-600 rounded-lg hover:bg-red-700"
+                            className="grid h-9 w-9 place-items-center rounded-full border border-line text-ash hover:border-red-400/40 hover:text-red-300"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="h-4 w-4" />
                           </button>
                         </div>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <div className="text-center py-8 text-slate-500">
+                  <div className="py-8 text-center text-ash">
                     No hay productos que mostrar
                   </div>
                 )}
@@ -462,20 +460,20 @@ if (!["admin", "seller", "partner"].includes(userRole))
 
       {/* --- Ventas --- */}
       {activeTab === "sales" && (
-        <div className="p-4 lg:p-6">
+        <div className="container-edge py-8">
           <SalesPanel />
         </div>
       )}
 
       {/* --- Usuarios --- */}
       {activeTab === "users" && userRole === "admin" && (
-        <div className="p-4 lg:p-6">
+        <div className="container-edge py-8">
           <UsersPanel onMessage={showMessageHandler} />
         </div>
       )}
 
         {activeTab === "partnerProfile" && userRole === "admin" && (
-        <div className="p-4 lg:p-6">
+        <div className="container-edge py-8">
           <PartnerProfile partner={{}} userRole={userRole} onEditPartner={() => {}} />
         </div>
       )}
@@ -483,41 +481,39 @@ if (!["admin", "seller", "partner"].includes(userRole))
 
       {/* Modal Categorías */}
       {showCategoryModal && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-          <div className="bg-slate-900 rounded-xl p-6 border border-slate-800 max-w-md w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between mb-4">
-              <h3 className="font-bold text-lg">Categorías Principales</h3>
-              <button onClick={() => setShowCategoryModal(false)} className="hover:text-red-400">
-                <X className="w-5 h-5" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/80 p-4 backdrop-blur-sm">
+          <div className="admin-card max-h-[80vh] w-full max-w-md overflow-y-auto p-6">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="font-display text-2xl text-bone">Categorías</h3>
+              <button onClick={() => setShowCategoryModal(false)} className="text-ash hover:text-red-300">
+                <X className="h-5 w-5" />
               </button>
             </div>
 
-            {/* Nueva categoría */}
-            <div className="flex gap-2 mb-4">
+            <div className="mb-4 flex gap-2">
               <input
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
                 placeholder="Ej: Gorras, Camisas"
-                className="flex-1 p-3 bg-slate-800 border border-slate-700 rounded-lg"
+                className="admin-field flex-1"
               />
               <button
                 onClick={handleAddCategory}
-                className="bg-violet-600 hover:bg-violet-700 px-3 rounded-lg font-bold"
+                className="grid h-11 w-11 place-items-center rounded-full bg-gold text-ink hover:bg-gold-soft"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="h-4 w-4" />
               </button>
             </div>
 
-            {/* Lista */}
-            <div className="space-y-2 max-h-60 overflow-y-auto">
+            <div className="max-h-60 space-y-2 overflow-y-auto">
               {categories.map((cat) => (
-                <div key={cat} className="flex items-center justify-between bg-slate-800 p-3 rounded-lg">
+                <div key={cat} className="flex items-center justify-between rounded-xl border border-line bg-elevated p-3">
                   {editingCategory === cat ? (
                     <>
                       <input
                         value={editCategoryValue}
                         onChange={(e) => setEditCategoryValue(e.target.value)}
-                        className="flex-1 p-2 bg-slate-900 border border-slate-700 rounded"
+                        className="admin-field flex-1 py-2"
                       />
                       <button
                         onClick={() =>
@@ -532,9 +528,9 @@ if (!["admin", "seller", "partner"].includes(userRole))
                             setSubmitting,
                           )
                         }
-                        className="bg-green-600 hover:bg-green-700 p-2 rounded ml-2"
+                        className="ml-2 grid h-9 w-9 place-items-center rounded-full bg-gold text-ink"
                       >
-                        <Plus className="w-3 h-3 rotate-45" />
+                        <Plus className="h-3 w-3 rotate-45" />
                       </button>
                     </>
                   ) : (
@@ -546,15 +542,15 @@ if (!["admin", "seller", "partner"].includes(userRole))
                             setEditingCategory(cat)
                             setEditCategoryValue(cat)
                           }}
-                          className="bg-blue-600 hover:bg-blue-700 p-2 rounded"
+                          className="grid h-9 w-9 place-items-center rounded-full border border-line text-ash hover:border-gold/50 hover:text-gold"
                         >
-                          <Edit className="w-3 h-3" />
+                          <Edit className="h-3 w-3" />
                         </button>
                         <button
                           onClick={() => handleDeleteCategory(cat)}
-                          className="bg-red-600 hover:bg-red-700 p-2 rounded"
+                          className="grid h-9 w-9 place-items-center rounded-full border border-line text-ash hover:border-red-400/40 hover:text-red-300"
                         >
-                          <Trash2 className="w-3 h-3" />
+                          <Trash2 className="h-3 w-3" />
                         </button>
                       </div>
                     </>
