@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "gorra-style",
+    "gorras": "gorra-style-ec63e"
+  },
+  "targets": {},
+  "etags": {}
+}
