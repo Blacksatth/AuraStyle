@@ -49,3 +49,4 @@ serviceAccountKey.json
 !tsconfig.json
 !components.json
 !firebase.json
+.env.local
