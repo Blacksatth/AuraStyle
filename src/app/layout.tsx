@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { CartProvider } from './context/CartContext'
-import Header from './components/Header'
+import { CartProvider } from '@/features/cart/CartContext'
+import Header from '@/components/layout/Header'
 
 export const metadata: Metadata = {
   title: 'AuraStyle — Moda con carácter',

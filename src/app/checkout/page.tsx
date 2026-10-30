@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { auth, db } from '../lib/firebase'
+import { auth, db } from '@/lib/firebase/client'
+import { useCart } from '@/features/cart/CartContext'
 import { collection, addDoc, doc, updateDoc, query, where, getDocs } from 'firebase/firestore'
 import {
   ShoppingBag,
@@ -54,6 +55,7 @@ interface SellerInfo {
 
 export default function CheckoutPage() {
   const router = useRouter()
+  const { clearCart } = useCart()
   const [user, setUser] = useState<UserData | null>(null)
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -151,14 +153,19 @@ export default function CheckoutPage() {
           email: currentUser.email,
           displayName: currentUser.displayName
         })
-        loadCart()
+        try {
+          const savedCart = localStorage.getItem('cart')
+          if (savedCart) setCartItems(JSON.parse(savedCart))
+        } catch (err) {
+          console.error('Error loading cart:', err)
+        }
         setShippingData(prev => ({
           ...prev,
           email: currentUser.email || '',
           fullName: currentUser.displayName || ''
         }))
       } else {
-        router.push('/inicio')
+        router.push('/login')
       }
       setLoading(false)
     })
@@ -182,17 +189,6 @@ export default function CheckoutPage() {
       }
     }
   }, [])
-
-  const loadCart = async () => {
-    try {
-      const savedCart = localStorage.getItem('cart')
-      if (savedCart) {
-        setCartItems(JSON.parse(savedCart))
-      }
-    } catch (err) {
-      console.error('Error loading cart:', err)
-    }
-  }
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const shipping = subtotal > 100000 ? 0 : 12000
@@ -278,7 +274,7 @@ export default function CheckoutPage() {
         amountInCents: Math.round(total * 100),
         reference: orderId,
         publicKey: 'pub_test_tu_llave_publica_de_wompi',
-        redirectUrl: `${window.location.origin}/order-confirmation?orderId=${orderId}`,
+        redirectUrl: `${window.location.origin}/pedido?orderId=${orderId}`,
         customerData: {
           email: shippingData.email,
           fullName: shippingData.fullName,
@@ -335,8 +331,8 @@ export default function CheckoutPage() {
             }
           }
 
-          localStorage.removeItem('cart')
-          router.push(`/order-confirmation?orderId=${orderId}`)
+          clearCart()
+          router.push(`/pedido?orderId=${orderId}`)
         }
       })
     } catch (err) {

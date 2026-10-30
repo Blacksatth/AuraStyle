@@ -1,28 +1,16 @@
 "use client"
-import { getDoc, doc, collection, getDocs } from "firebase/firestore"
-import { db } from "../../lib/firebase"
 import Link from "next/link"
-import { useCart } from "@/app/context/CartContext"
+import { useCart } from "@/features/cart/CartContext"
 import { useEffect, useState } from "react"
 import { Minus, Plus, X, ArrowLeft, ShoppingCart, Heart, Share2, Star, MessageCircle } from "lucide-react"
 import Modal from "react-modal"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Product } from "@/app/types/Product"
-import ProductReviews from "@/app/components/ProductReviews"
-import Footer from "@/app/components/Footer"
-
-async function getProductById(id: string): Promise<Product | null> {
-  const ref = doc(db, "products", id)
-  const snap = await getDoc(ref)
-  if (!snap.exists()) return null
-  return { id: snap.id, ...snap.data() } as Product
-}
-
-async function getAllProducts(): Promise<Product[]> {
-  const snapshot = await getDocs(collection(db, "products"))
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Product[]
-}
+import type { Product } from "@/types/product"
+import { getProductById, getProducts } from "@/lib/firebase/products"
+import { getProductImage, getProductImages } from "@/lib/product-image"
+import ProductReviews from "@/components/product/ProductReviews"
+import Footer from "@/components/layout/Footer"
 
 export default function ProductClient({ id }: { id: string }) {
   const [product, setProduct] = useState<Product | null>(null)
@@ -52,7 +40,7 @@ export default function ProductClient({ id }: { id: string }) {
           return
         }
         setProduct(data)
-        const allProducts = await getAllProducts()
+        const allProducts = await getProducts()
         const recommendations = allProducts.filter((p) => p.id !== data.id && p.category === data.category).slice(0, 4)
         const more = allProducts.filter((p) => p.id !== data.id).slice(0, 8)
         setRecommendations(recommendations)
@@ -75,7 +63,7 @@ export default function ProductClient({ id }: { id: string }) {
     )
   }
 
-  const images = [...(Array.isArray(product.image) ? product.image : [product.image]), ...(product.extraImages || [])]
+  const images = getProductImages(product)
   const whatsappMessage = `Hola, quiero comprar:\n*${product.name}*\nPrecio: $${product.onSale && product.salePrice ? product.salePrice : product.price}\nCategoría: ${product.category}`
   const cartItem = cart.find((item) => item.id === product.id)
   const effectivePrice = product.onSale && product.salePrice !== undefined ? product.salePrice : product.price
@@ -306,7 +294,7 @@ export default function ProductClient({ id }: { id: string }) {
                     <div className="group bg-surface rounded-xl overflow-hidden border border-line hover:border-gold/40 transition-all hover:scale-105">
                       <div className="relative aspect-square">
                         <Image
-                          src={Array.isArray(p.image) ? p.image[0] : p.image}
+                          src={getProductImage(p.image)}
                           alt={p.name}
                           fill
                           unoptimized
@@ -360,7 +348,7 @@ export default function ProductClient({ id }: { id: string }) {
                     <div className="group bg-surface rounded-xl overflow-hidden border border-line hover:border-gold/40 transition-all hover:scale-105">
                       <div className="relative aspect-square">
                         <Image
-                          src={Array.isArray(p.image) ? p.image[0] : p.image}
+                          src={getProductImage(p.image)}
                           alt={p.name}
                           fill
                           unoptimized

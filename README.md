@@ -1,36 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AuraStyle / SharkZone
 
-## Getting Started
+Marketplace de moda con catálogo, carrito, checkout, panel de administración y panel de vendedores.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, Turbopack)
+- **React 19** + **TypeScript** (strict)
+- **Tailwind CSS 4** + shadcn/ui (Radix)
+- **Firebase** (Auth + Firestore) y **Cloudinary** para imágenes
+- **Wompi** para pagos
+
+## Requisitos
+
+- Node.js 22+
+- Una cuenta/proyecto de Firebase
+- Un cloud de Cloudinary con upload preset sin firmar
+
+## Puesta en marcha
 
 ```bash
+npm install
+cp .env.example .env.local   # Windows: copy .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Variables de entorno
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Todas las variables están documentadas en `.env.example`. El cliente de Firebase falla
+al arrancar si falta alguna, para evitar errores silenciosos.
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Script | Descripción |
+|---|---|
+| `npm run dev` | Servidor de desarrollo con Turbopack |
+| `npm run build` | Build de producción |
+| `npm run start` | Sirve el build |
+| `npm run lint` | ESLint (flat config) |
+| `npm run lint:fix` | ESLint con autofix |
+| `npm run typecheck` | TypeScript sin emitir |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Estructura
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├─ app/                     # Solo rutas (App Router)
+│  ├─ page.tsx              # Home
+│  ├─ login/                # Iniciar sesión
+│  ├─ registro/             # Crear cuenta
+│  ├─ products/[id]/        # Detalle de producto
+│  ├─ checkout/             # Checkout + Wompi
+│  ├─ pedido/               # Confirmación de pedido
+│  ├─ socios/               # Solicitud de socio
+│  ├─ admin/                # Panel de administración
+│  ├─ vendedor/             # Panel de vendedor
+│  ├─ error.tsx             # Error boundary global
+│  ├─ not-found.tsx         # 404
+│  └─ loading.tsx           # Estado de carga global
+├─ components/
+│  ├─ ui/                   # shadcn/ui
+│  ├─ layout/               # Header, Footer, carrito
+│  ├─ product/              # Grid, slider, reseñas
+│  └─ sections/             # Banner, manifiesto, contacto
+├─ features/
+│  ├─ admin/                # AdminPanel y subpaneles
+│  ├─ auth/                 # useAuth, RegisterForm
+│  └─ cart/                 # CartContext
+├─ lib/
+│  ├─ firebase/client.ts    # Inicialización de Firebase
+│  ├─ firebase/products.ts  # Lectura de productos
+│  ├─ firebase/admin-*.ts   # Escrituras de administración
+│  ├─ cloudinary.ts         # Subida de imágenes
+│  ├─ format.ts             # Precios, descuentos
+│  └─ product-image.ts      # Normalización de imágenes
+├─ config/constants.ts      # Correos admin
+└─ types/                   # Product, User
+```
 
-## Deploy on Vercel
+## Rutas principales
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Ruta | Descripción |
+|---|---|
+| `/` | Home con slider y catálogo |
+| `/products/[id]` | Detalle de producto y reseñas |
+| `/checkout` | Checkout y pago con Wompi |
+| `/pedido?orderId=...` | Confirmación de pedido |
+| `/login` · `/registro` | Autenticación |
+| `/admin` | Panel de administración |
+| `/vendedor` | Panel de vendedor |
+| `/socios` | Solicitud para ser socio |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Las rutas antiguas `/inicio`, `/vendedor-dashboard` y `/order-confirmation` redirigen
+automáticamente a las nuevas.
+
+## Administración
+
+Para marcar un usuario como admin con custom claims:
+
+```bash
+node scripts/set-admin.mjs <UID>
+```
+
+Requiere `serviceAccountKey.json` en la raíz (ignorado por git).
+
+## Pendiente (Fase 2)
+
+- Firestore Rules + `middleware.ts` para proteger `/admin` y `/vendedor` en el servidor.
+- Cloud Functions para crear pedidos, descontar stock y calcular comisiones en transacciones.
+- Catálogo y detalle de producto con Server Components y metadata real (SEO).
+- Tests (Vitest + Testing Library) y CI.

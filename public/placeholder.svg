@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" fill="none">
+  <rect width="800" height="1000" fill="#141414"/>
+  <rect x="40" y="40" width="720" height="920" rx="24" stroke="#2a2a2a" stroke-width="2"/>
+  <circle cx="400" cy="440" r="72" stroke="#8a6d3b" stroke-width="3"/>
+  <path d="M356 440h88M400 396v88" stroke="#8a6d3b" stroke-width="3" stroke-linecap="round"/>
+  <text x="400" y="580" fill="#6b6b6b" font-family="Georgia, serif" font-size="28" text-anchor="middle">AuraStyle</text>
+  <text x="400" y="620" fill="#4a4a4a" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" letter-spacing="4">IMAGEN NO DISPONIBLE</text>
+</svg>
