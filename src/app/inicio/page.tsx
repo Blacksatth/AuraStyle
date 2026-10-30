@@ -46,7 +46,7 @@ export default function LoginForm() {
         try {
           const userDocRef = doc(db, 'users', user.uid)
           const userDoc = await getDoc(userDocRef)
-          
+
           if (userDoc.exists()) {
             const userData = userDoc.data()
             // Redirigir según el rol
@@ -113,10 +113,9 @@ export default function LoginForm() {
       const userDoc = await getDoc(userDocRef)
 
       if (!userDoc.exists()) {
-        // Usuario no encontrado en la base de datos
-        // Eliminar el usuario de Firebase Authentication
-        await userCredential.user.delete()
-        setError('Usuario no encontrado en la base de datos. Por favor regístrate.')
+        setError(
+          'Tu cuenta existe en Firebase Authentication, pero no encontramos tu perfil. Contacta al administrador.'
+        )
         return
       }
 
@@ -130,12 +129,13 @@ export default function LoginForm() {
       }
     } catch (err: unknown) {
       const errorMap: Record<string, string> = {
-        'auth/user-not-found': 'Usuario no encontrado.',
-        'auth/wrong-password': 'Contraseña incorrecta.',
-        'auth/invalid-email': 'Correo inválido.',
-        'auth/invalid-credential': 'Credenciales inválidas.',
+        'auth/user-not-found': 'No encontramos una cuenta con esas credenciales. Si te registraste con Google, utiliza el botón "Continuar con Google".',
+        'auth/wrong-password': 'Contraseña incorrecta. Si te registraste con Google, utiliza el botón "Continuar con Google".',
+        'auth/invalid-email': 'Correo electrónico inválido.',
+        'auth/invalid-credential': 'No pudimos iniciar sesión con esos datos. Si te registraste con Google, continúa usando el botón "Continuar con Google".',
         'auth/too-many-requests': 'Demasiados intentos. Intenta más tarde.',
         'auth/network-request-failed': 'Error de conexión. Verifica tu red.',
+        'auth/operation-not-allowed': 'El acceso con correo y contraseña no está habilitado.',
       }
       const errorCode = (err as { code?: string })?.code
       setError(errorMap[errorCode || ''] || 'Error al iniciar sesión. Intenta de nuevo.')
@@ -167,7 +167,7 @@ export default function LoginForm() {
 
       // Usuario existe - obtener rol y redirigir
       const userData = userDoc.data()
-      
+
       if (userData.role === 'admin') {
         router.push('/admin')
       } else {
@@ -175,12 +175,12 @@ export default function LoginForm() {
       }
     } catch (err: unknown) {
       const errorCode = (err as { code?: string })?.code
-      
+
       // Si el usuario cancela el popup, no mostrar error
       if (errorCode === 'auth/popup-closed-by-user' || errorCode === 'auth/cancelled-popup-request') {
         return
       }
-      
+
       setError('Error al iniciar sesión con Google.')
     } finally {
       setLoading(false)
@@ -209,15 +209,13 @@ export default function LoginForm() {
         </div>
 
         {error && (
-          <div className="bg-red-500/20 border border-red-500 text-red-400 py-3 px-4 mb-4 rounded-md text-sm animate-shake">
+          <div className="bg-red-500/10 border border-red-500/30 text-red-300 py-3 px-4 mb-4 rounded-xl text-sm animate-shake">
             <p className="font-medium">{error}</p>
-            {error.includes('no está registrada') && (
-              <a 
-                href="/registro" 
-                className="text-gold-soft hover:text-gold-soft underline mt-1 inline-block"
-              >
-                Ir a registro →
-              </a>
+
+            {error.includes('Google') && (
+              <p className="mt-2 text-gold-soft">
+                Selecciona el botón «Continuar con Google» para acceder a tu cuenta.
+              </p>
             )}
           </div>
         )}
@@ -230,13 +228,12 @@ export default function LoginForm() {
               type="email"
               name="email"
               placeholder="Correo electrónico"
-              className={`w-full pl-11 pr-10 py-3 rounded-xl border border-line bg-ink/50 text-sm focus:ring-2 focus:outline-none placeholder:text-ash transition ${
-                formData.email
+              className={`w-full pl-11 pr-10 py-3 rounded-xl border border-line bg-ink/50 text-sm focus:ring-2 focus:outline-none placeholder:text-ash transition ${formData.email
                   ? validations.emailValid
                     ? 'focus:ring-green-500'
                     : 'focus:ring-amber-500'
                   : 'focus:ring-gold'
-              }`}
+                }`}
               value={formData.email}
               onChange={handleChange}
               autoComplete="email"
@@ -261,13 +258,12 @@ export default function LoginForm() {
               type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Contraseña"
-              className={`w-full pl-11 pr-20 py-3 rounded-xl border border-line bg-ink/50 text-sm focus:ring-2 focus:outline-none placeholder:text-ash transition ${
-                formData.password
+              className={`w-full pl-11 pr-20 py-3 rounded-xl border border-line bg-ink/50 text-sm focus:ring-2 focus:outline-none placeholder:text-ash transition ${formData.password
                   ? validations.passwordValid
                     ? 'focus:ring-green-500'
                     : 'focus:ring-amber-500'
                   : 'focus:ring-gold'
-              }`}
+                }`}
               value={formData.password}
               onChange={handleChange}
               autoComplete="current-password"
@@ -303,11 +299,10 @@ export default function LoginForm() {
           <button
             onClick={handleLogin}
             disabled={loading || !validations.emailValid || !validations.passwordValid}
-            className={`w-full flex justify-center items-center gap-2 py-3 rounded-full font-medium text-sm tracking-wide transition-all duration-300 ${
-              loading || !validations.emailValid || !validations.passwordValid
+            className={`w-full flex justify-center items-center gap-2 py-3 rounded-full font-medium text-sm tracking-wide transition-all duration-300 ${loading || !validations.emailValid || !validations.passwordValid
                 ? 'bg-elevated text-ash/60 border border-line cursor-not-allowed'
                 : 'bg-gold text-ink hover:bg-gold-soft hover:scale-[1.02]'
-            }`}
+              }`}
           >
             {loading ? (
               <>
@@ -338,18 +333,18 @@ export default function LoginForm() {
             disabled={loading}
             className="w-full flex justify-center items-center gap-2 py-3 rounded-full font-medium text-sm bg-white text-slate-900 hover:bg-gray-100 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-           <>
-                           {/* 👈 Corregido: uso de componente Image de Next.js */}
-                           <Image
-                             src="https://www.svgrepo.com/show/475656/google-color.svg"
-                             alt="Google"
-                             width={20} // Añadir width
-                             height={20} // Añadir height
-                             className="w-5 h-5"
-                             priority // Se recomienda para imágenes above the fold
-                           />
-                           Continuar con Google
-                         </>
+            <>
+              {/* 👈 Corregido: uso de componente Image de Next.js */}
+              <Image
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                alt="Google"
+                width={20} // Añadir width
+                height={20} // Añadir height
+                className="w-5 h-5"
+                priority // Se recomienda para imágenes above the fold
+              />
+              Continuar con Google
+            </>
           </button>
         </div>
 

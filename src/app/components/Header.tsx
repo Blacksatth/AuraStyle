@@ -83,7 +83,7 @@ export default function Header() {
     }
   }
 
-  const ADMIN_EMAILS = [
+const ADMIN_EMAILS = [
     'santiago.cifuentes@correo.tdea.edu.co',
     'santiagocifuenteslora@gmail.com',
   ]
@@ -112,6 +112,7 @@ export default function Header() {
       : isSeller
         ? [
           { href: '/vendedor-dashboard', label: 'Panel Vendedor', icon: User },
+          { href: '/admin', label: 'Admin', icon: Shield },
         ]
         : []
 
@@ -249,8 +250,8 @@ export default function Header() {
       {/* Header principal */}
       <header
         className={`sticky top-0 z-50 border-b transition-colors duration-500 ${scrolled
-          ? 'border-line/80 bg-ink/90 backdrop-blur-xl'
-          : 'border-transparent bg-ink/70 backdrop-blur-md'
+            ? 'border-line/80 bg-ink/90 backdrop-blur-xl'
+            : 'border-transparent bg-ink/70 backdrop-blur-md'
           }`}
       >
         <div className="container-edge flex h-18 items-center justify-between gap-4 sm:h-20">
@@ -308,8 +309,9 @@ export default function Header() {
               </div>
             ) : (
               <div className="hidden items-center gap-2 sm:flex">
-                {isAdmin && (
-                  <Link href="/admin"
+                {(isAdmin || isSeller) && (
+                  <Link
+                    href="/admin"
                     className="flex items-center gap-2 rounded-full border border-line px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-ash transition-colors hover:border-gold/50 hover:text-gold"
                   >
                     <Shield size={15} />

@@ -37,10 +37,26 @@ import {
 import type { Product } from "../../types/Product"
 import AddProduct from "./AddProduct"
 
+
 export default function AdminPanel() {
   const { user, loading: authLoading } = useAuth()
-  const userRole = user?.role || "user"
   const router = useRouter()
+
+  // Correos autorizados como administradores
+  const ADMIN_EMAILS = [
+    "santiago.cifuentes@correo.tdea.edu.co",
+    "santiagocifuenteslora@gmail.com",
+  ]
+
+  // Normalizar correo para evitar errores de mayúsculas o espacios
+  const userEmail = user?.email?.trim().toLowerCase() ?? ""
+
+  // Verificar si el usuario es administrador
+  const isAdmin = ADMIN_EMAILS.includes(userEmail)
+
+  // Si está autorizado, darle prioridad al rol administrador
+  const userRole = isAdmin ? "admin" : (user?.role || "user")
+
 
     const [form, setForm] = useState<ProductForm>({
     name: "",
